@@ -1,0 +1,43 @@
+:root{
+    color-scheme: dark light;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242422;
+
+    --shop-background-color: #242422;
+    --shop-hover-background-color: #eaeaea;
+
+    --shop-border-color: #eaeaea;
+
+    --shop-a-color: #cacaca;
+    --shop-a-active-color: #ffffff;
+    --shop-a-hover-color: #ffffff;
+
+    --shop-font-color: #cacaca;
+
+    --bs-body-color:  #eaeaea;
+    --bs-tertiary-bg:#242422;
+    --bs-border-color: #eaeaea;
+    --bs-body-bg: #242422;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        background-color: #eaeaea;
+
+        --shop-background-color: #eaeaea;
+        --shop-hover-background-color: #565656;
+
+        --shop-border-color: #343434;
+
+        --shop-a-color: #565656;
+        --shop-a-active-color: #343434;
+        --shop-a-hover-color: #343434;
+
+        --shop-font-color: #343434;
+
+        --bs-body-color: #343434;
+        --bs-tertiary-bg: #eaeaea;
+        --bs-border-color: #343434;
+        --bs-body-bg: #eaeaea;
+    }
+}

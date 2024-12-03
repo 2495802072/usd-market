@@ -1,0 +1,20 @@
+:root{
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+
+    --shop-background-color: #005050;
+    --shop-hover-background-color: #565656;
+
+    --shop-border-color: #ffe883;
+
+    --shop-a-color: #ffe883;
+    --shop-a-active-color: #eaeaea;
+    --shop-a-hover-color: #eaeaea;
+
+    --shop-font-color: #ffe883;
+
+    --bs-body-color: #ffe883;
+    --bs-tertiary-bg: #005050;
+    --bs-border-color: #ffe883;
+    --bs-body-bg: #005050;
+}

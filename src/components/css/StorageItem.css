@@ -1,0 +1,13 @@
+.storageItem{
+    width: 100%;
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+.storageItem img{
+    border: 1px solid var(--shop-border-color);
+}
+.storageItem div{
+    display: flex;
+    margin-bottom: .5rem;
+}

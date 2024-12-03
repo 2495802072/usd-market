@@ -1,0 +1,10 @@
+#OrderRoot{
+    width: 100%;
+    min-height: 100vh;
+}
+
+#OrderBox{
+    border: 1px solid var(--shop-border-color);
+    margin-left: 230px;
+    z-index: 900;
+}

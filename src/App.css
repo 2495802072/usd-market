@@ -1,0 +1,12 @@
+#root {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    overflow-x: hidden;
+}
+.list-box{
+    padding-top: 2rem;
+    flex: 2;
+}

@@ -1,0 +1,120 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: var(--shop-a-color);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--shop-a-hover-color);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--shop-background-color);
+  padding-left: 230px;
+  z-index: -200;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/*bootstrap-Overwrite*/
+.fixed-left{
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 20px;
+  bottom: 0;
+  z-index: 1088;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  /*justify-content: space-between;*/
+  justify-content: flex-start;
+}
+
+.btn-gold {
+  --bs-btn-color: var(--shop-a-color);
+  --bs-btn-bg: var(--shop-background-color);
+  --bs-btn-border-color: var(--shop-a-color);
+  --bs-btn-hover-color: var(--shop-background-color);
+  --bs-btn-hover-bg: var(--shop-a-hover-color);
+  --bs-btn-hover-border-color: var(--shop-a-hover-color);
+  --bs-btn-focus-shadow-rgb: 108, 117, 125;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #003030;
+  --bs-btn-active-border-color: #eaeaea;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #6c757d;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #6c757d;
+}
+
+.image-container {
+  width: 100%;  /* 设置容器宽度 */
+  height: 100%; /* 设置容器高度 */
+  overflow: hidden; /* 隐藏超出部分 */
+  position: relative;
+  pointer-events: none;
+}
+
+.image-container img {
+  position: absolute; /* 绝对定位 */
+  top: 50%; /* 上下居中 */
+  left: 50%; /* 左右居中 */
+  transform: translate(-50%, -50%); /* 使图片居中 */
+  min-width: 100%; /* 最小宽度100% */
+  min-height: 100%; /* 最小高度100% */
+  z-index: -100;
+}
+
+.img3{
+  width: 80px;
+  height: 80px;
+  border-radius: 10%;
+}
+
+.img5{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+@media (max-width: 993px) {
+  body{
+    padding-left: 0;
+  }
+}
