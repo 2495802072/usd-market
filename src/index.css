@@ -27,6 +27,7 @@ body {
   background-color: var(--shop-background-color);
   padding-left: 230px;
   z-index: -200;
+  background: var(--shop-background-img);
 }
 
 h1 {

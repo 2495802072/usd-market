@@ -1,13 +1,47 @@
-#searching{
+/*主盒子*/
+.head-box-home{
+    display: flex;
     height: 140px;
+}
+/*副盒子*/
+.vice-head-box-home{
+    margin: auto;
+    width: 20%;
+    border-radius: 3px;
+    border: 1px solid var(--shop-border-color);
+    background-color: var(--shop-background-color);
+}
+#little-card{
+    width: 100%;
+    border-bottom: 1px solid var(--shop-border-color);
+    background-color: var(--shop-background-color);
+    cursor: pointer;
+}
+.vice-head-box-home a{
+    border-radius: 0;
+    border: 0;
+}
+.vice-head-box-home img{
+    margin: 5px;
+    width: 45px;
+    height: 45px;
+    border-radius: 3px;
+    border: 1px solid var(--shop-border-color);
+}
+
+/*查找box*/
+.searching-box-home{
+    margin: auto;
+}
+#searching{
     position: relative;
-    margin: 0 5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     z-index: 100;
 }
 #searchingHistory{
+    border-radius: 5px;
     width: 100%;
 }
 #searchingHistory td{
