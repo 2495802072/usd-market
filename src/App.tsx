@@ -11,8 +11,10 @@ import ShoppingTrolley from "./views/ShoppingTrolley.tsx";
 import OrderList from "./views/OrderList.tsx";
 import Message from "./views/Message.tsx";
 import Storage from "./views/Storage.tsx";
+import Login from "./views/Login.tsx";
 
-function App() {
+const App = () => {
+
     return (
         <Router>
             <Navs />
@@ -25,6 +27,8 @@ function App() {
                 <Route path="/orderList" element={<OrderList/>}/>
                 <Route path="/message" element={<Message/>}/>
                 <Route path="/about" element={<About/>}/>
+                <Route path="/login" element={<Login/>}/>
+
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </Router>

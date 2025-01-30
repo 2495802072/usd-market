@@ -1,7 +1,7 @@
 import './css/Home.css'
-import React, {useRef, useState} from "react";
-import bg from '../assets/img/南京理工大学泰州科技学院.jpg'
+import React, {useRef} from "react";
 import ProductItem from "../components/ProductItem.tsx";
+import TopBar from "../components/TopBar.tsx";
 
 // 搜索历史,保留10个
 const searchHistory : string[] = ["123","asd","asd","asd","asd","asd","asd","asd","asd","asd","asd","asd","asd"]
@@ -31,7 +31,7 @@ const SearchBox: React.FC<{ searchingBoxRef: React.RefObject<HTMLInputElement> }
         {/*<div className={'image-container'} style={{ position: 'absolute', width: '150%',left: '-25%'}}>*/}
         {/*    <img src={bg} alt={"背景"} />*/}
         {/*</div>*/}
-        <div className="input-group mb-3">
+        <div className="input-group mb-1">
             <span className="input-group-text">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                      fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -41,7 +41,7 @@ const SearchBox: React.FC<{ searchingBoxRef: React.RefObject<HTMLInputElement> }
                     <path d="M21 21l-6 -6" />
                 </svg>
             </span>
-            <input id={'searchingBox'} ref={searchingBoxRef} type="text" className="form-control" aria-label="Amount (to the nearest dollar)" />
+            <input id={'searchingBox'} ref={searchingBoxRef} type="text" className="form-control" aria-label="Amount (to the nearest searching)" />
             <button className="btn btn-gold" type="button">搜索</button>
         </div>
     </div>
@@ -70,6 +70,7 @@ function Home() {
 
     return (
         <>
+            <TopBar />
             <div className="head-box-home">
                 <div className='searching-box-home'>
                     <SearchBox searchingBoxRef={searchingBoxRef}/>
@@ -122,6 +123,8 @@ function Home() {
 
                 {/*商品列表*/}
                 <div id={'productList'}>
+                    <ProductItem/>
+                    <ProductItem/>
                     <ProductItem/>
                     <ProductItem/>
                     <ProductItem/>

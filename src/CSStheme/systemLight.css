@@ -20,6 +20,8 @@
     --bs-border-color: #eaeaea;
     --bs-body-bg: #242422;
 
+    /*Bootstrap5*/
+    --bs-dropdown-link-active-bg: #eaeaea;
 }
 
 @media (prefers-color-scheme: light) {

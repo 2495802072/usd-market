@@ -21,6 +21,8 @@ a:hover {
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -53,7 +55,29 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* 整个滚动条 */
+::-webkit-scrollbar {
+  width: 3px; /* 垂直滚动条的宽度 */
+  height: 3px; /* 水平滚动条的高度 */
+}
+
+/* 滚动条的滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #f1f1f1; /* 滑块的颜色 */
+  border: 1px solid #fff; /* 滑块的边框 */
+}
+
+
+
+/* 滚动条的角落 */
+::-webkit-scrollbar-corner {
+  background: #f1f1f1; /* 角落的颜色 */
+}
+
+
+
 /*bootstrap-Overwrite*/
+/*覆写bootstrap5中部分不和需求的样式*/
 .fixed-left{
   position: fixed;
   top: 0;

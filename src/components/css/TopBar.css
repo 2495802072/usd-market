@@ -1,0 +1,20 @@
+.top-bar{
+    width: 100%;
+    background-color: var(--shop-background-color);
+    padding: 5px 10px 5px 235px;
+    transition: padding-left 0.2s ease-in-out;
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: 1px solid var(--shop-border-color);
+}
+
+.dropdown-menu{
+    --bs-dropdown-link-active-bg: #eaeaea;
+    --bs-dropdown-link-active-color: #242422;
+}
+
+@media (max-width: 993px) {
+    .top-bar{
+        padding-left: 5px;
+    }
+}
