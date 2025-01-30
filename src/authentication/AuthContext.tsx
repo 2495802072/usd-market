@@ -2,8 +2,12 @@ import React, { createContext, useReducer, useContext, ReactNode, Dispatch } fro
 
 // 定义用户和认证状态的类型
 interface User {
+    userId: bigint;
     username: string;
-    // 你可以根据需要添加更多用户信息字段
+    password: string;
+    email: string;
+    phone: string;
+    role: string;
 }
 
 interface AuthState {

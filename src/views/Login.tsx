@@ -6,7 +6,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const dispatch = useAuth();
+    const {dispatch} = useAuth();
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -19,7 +19,9 @@ const Login = () => {
         });
 
         if (response.ok) {
-            const { token, user } = await response.json();
+            const { token, user} = await response.json();
+            console.log("user : "+user);
+            console.log("token : "+token);
 
             // 保存JWT
             sessionStorage.setItem('token', token);
@@ -31,7 +33,7 @@ const Login = () => {
             });
 
             // 重定向到仪表盘
-            navigate('/home');
+            navigate('/');
         } else {
             // 处理错误
             console.error('登录失败');
@@ -60,7 +62,7 @@ const Login = () => {
                         required
                     />
                 </div>
-                <a className={'btn btn-gold'} type="submit">登录</a>
+                <input className={'btn btn-gold'} type={'submit'} value={'登录'} />
             </form>
         </div>
     );
