@@ -5,6 +5,7 @@ nav{
     box-shadow:3px 0 #00000050;
     filter: brightness(110%);
     transition: width 0.2s ease-in-out;
+    --nav-active-bg: url("src/assets/icons/NavBG.svg");
 }
 .nav-link{
     color: var(--shop-a-color);
@@ -21,7 +22,8 @@ nav{
     transform: translateY(-3px);
 }
 .active-link{
-    background-image: url("src/assets/icons/NavBG.svg");
+    /*background-image: url("src/assets/icons/NavBG.svg");*/
+    background-image: var(--nav-active-bg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }

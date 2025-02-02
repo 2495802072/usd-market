@@ -16,22 +16,25 @@ import Login from "./views/Login.tsx";
 const App = () => {
 
     return (
-        <Router>
-            <Navs />
+        <>
+            <Router>
+                <Navs />
+                <div className={'page'}>
+                    <Routes>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/storage" element={<Storage/>}/>
+                        <Route path="/user" element={<User/>}/>
+                        <Route path="/shoppingTrolley" element={<ShoppingTrolley/>}/>
+                        <Route path="/orderList" element={<OrderList/>}/>
+                        <Route path="/message" element={<Message/>}/>
+                        <Route path="/about" element={<About/>}/>
+                        <Route path="/login" element={<Login/>}/>
 
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/storage" element={<Storage/>}/>
-                <Route path="/user" element={<User/>}/>
-                <Route path="/shoppingTrolley" element={<ShoppingTrolley/>}/>
-                <Route path="/orderList" element={<OrderList/>}/>
-                <Route path="/message" element={<Message/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/login" element={<Login/>}/>
-
-                <Route path="*" element={<NotFound/>}/>
-            </Routes>
-        </Router>
+                        <Route path="*" element={<NotFound/>}/>
+                    </Routes>
+                </div>
+            </Router>
+        </>
     );
 }
 

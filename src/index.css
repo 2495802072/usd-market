@@ -23,6 +23,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+
   place-items: center;
   min-width: 320px;
   min-height: 100vh;

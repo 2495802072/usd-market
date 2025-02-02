@@ -10,6 +10,10 @@ const TopBar: React.FC = () =>{
     const toLogin = () =>{
         navigate('/login');
     }
+    const loginOut = () => {
+        console.log(loginState.state.user?.username);
+        console.log(loginState.state.isAuthenticated);
+    }
 
     return (
         <>
@@ -17,9 +21,10 @@ const TopBar: React.FC = () =>{
                 <div>
                     <input type={'text'} placeholder={'/全局搜索...'}/>
                 </div>
-                <div className="dropdown" style={{width:'150px'}}>
-                    <a className="dropdown-toggle" data-bs-toggle={loginState.state.isAuthenticated?"dropdown":null} href={"#"} role="button" onClick={loginState.state.isAuthenticated?null:toLogin}
-                       aria-expanded="false">{loginState.state.user?loginState.state.user.username:"未登录"}</a>
+                <div className="dropdown" style={{width: '150px'}}>
+                    <a className="dropdown-toggle" data-bs-toggle={loginState.state.isAuthenticated ? "dropdown" : null}
+                       href={"#"} role="button" onClick={loginState.state.isAuthenticated ? null : toLogin}
+                       aria-expanded="false">{loginState.state.user ? loginState.state.user.username : "未登录"}</a>
                     <ul className="dropdown-menu">
                         <li><a className="dropdown-item" href="#">用户设置</a></li>
                         <li><a className="dropdown-item" href="#">状态：在线</a></li>
@@ -27,7 +32,9 @@ const TopBar: React.FC = () =>{
                         <li>
                             <hr className="dropdown-divider"/>
                         </li>
-                        <li><a className="dropdown-item" href="#">退出登录</a></li>
+                        <li>
+                            <button className="dropdown-item" onClick={loginOut}>退出登录</button>
+                        </li>
                     </ul>
                 </div>
 

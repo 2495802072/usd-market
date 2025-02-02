@@ -1,0 +1,18 @@
+.login_register{
+    /*border: 1px solid var(--shop-border-color);*/
+    margin-bottom: 46vh;
+}
+
+.login_register tr{
+    line-height: 35px;
+    min-width: 50px;
+}
+
+.login_register div{
+    display: flex;
+    justify-content: center;
+}
+
+.login_register .nav-link.active{
+    color: var(--shop-a-active-color);
+}

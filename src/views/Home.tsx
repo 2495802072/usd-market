@@ -2,6 +2,7 @@ import './css/Home.css'
 import React, {useRef} from "react";
 import ProductItem from "../components/ProductItem.tsx";
 import TopBar from "../components/TopBar.tsx";
+import {useAuth} from "../authentication/AuthContext.tsx";
 
 // 搜索历史,保留10个
 const searchHistory : string[] = ["123","asd","asd","asd","asd","asd","asd","asd","asd","asd","asd","asd","asd"]
