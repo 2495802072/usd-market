@@ -102,7 +102,7 @@ const Login = () => {
                                 <td><input
                                     type="text"
                                     value={email}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     required
                                 /></td>
                             </tr>
