@@ -1,0 +1,30 @@
+/*Error弹窗的淡入淡出*/
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+}
+
+.popup-enter {
+    animation: fadeIn 0.5s forwards;
+}
+
+.popup-exit {
+    animation: fadeOut 0.5s forwards;
+}

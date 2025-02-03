@@ -16,3 +16,8 @@
 .login_register .nav-link.active{
     color: var(--shop-a-active-color);
 }
+
+/* *的颜色 */
+.login_register label.ipt-msg{
+    color: red;
+}

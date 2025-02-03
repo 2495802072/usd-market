@@ -85,7 +85,7 @@ button:focus-visible {
   left: 0;
   min-width: 20px;
   bottom: 0;
-  z-index: 1088;
+  z-index: 1101;
   flex-direction: column;
   flex-wrap: nowrap;
   /*justify-content: space-between;*/
