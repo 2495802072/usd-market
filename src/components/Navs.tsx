@@ -22,7 +22,7 @@ const Navs: React.FC = () =>{
 
     },[]);//deps若存在，其改变时，才执行该函数
 
-    const [isScroll, setIsScroll] = useState(false);
+    const [isScroll, _setIsScroll] = useState(false);
 
     return (
         <div>

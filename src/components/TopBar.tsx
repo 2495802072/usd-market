@@ -23,7 +23,7 @@ const TopBar: React.FC = () =>{
                 </div>
                 <div className="dropdown" style={{width: '150px'}}>
                     <a className="dropdown-toggle" data-bs-toggle={loginState.state.isAuthenticated ? "dropdown" : null}
-                       href={"#"} role="button" onClick={loginState.state.isAuthenticated ? null : toLogin}
+                       href={"#"} role="button" onClick={loginState.state.isAuthenticated ? () => {} : toLogin}
                        aria-expanded="false">{loginState.state.user ? loginState.state.user.username : "未登录"}</a>
                     <ul className="dropdown-menu">
                         <li><a className="dropdown-item" href="#">用户设置</a></li>

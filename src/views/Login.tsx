@@ -1,5 +1,5 @@
 import './css/Login.css'
-import React, {useRef, useState} from 'react';
+import {useRef, useState, FormEvent } from 'react';
 import {useNavigate} from "react-router-dom";
 import { useAuth } from '../authentication/AuthContext.tsx';
 import { useError } from "../components/ErrorContext.tsx";
@@ -10,10 +10,10 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [role, setRole] = useState('');
-    const rg_userRef = useRef(null);
-    const rg_passRef = useRef(null);
-    const rg_emlRef = useRef(null);
-    const rg_roleRef = useRef(null);
+    const rg_userRef = useRef<HTMLInputElement | null>(null);
+    const rg_passRef = useRef<HTMLInputElement | null>(null);
+    const rg_emlRef = useRef<HTMLInputElement | null>(null);
+    const rg_roleRef = useRef<HTMLSelectElement  | null>(null);
 
     const navigate = useNavigate();
     //确认登录状态
@@ -21,7 +21,7 @@ const Login = () => {
     //Err弹窗预备
     const { showError } = useError();
 
-    const handleLogin = async (event) => {
+    const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
 
         // 登录API
@@ -53,13 +53,15 @@ const Login = () => {
         }
     };
 
-    const handleRegister = async (event) => {
+    const handleRegister = async (event: FormEvent) => {
         event.preventDefault();
         //缺少用户名
         if (!username){
             showError('请输入用户名');
-            if(rg_userRef.current){
-                rg_userRef.current.focus();
+            if (rg_userRef.current) {
+                if ("focus" in rg_userRef.current) {
+                    rg_userRef.current.focus();
+                }
             }
             return;
         }
@@ -67,7 +69,9 @@ const Login = () => {
         if (password.length < 6) {
             showError('密码至少需要6位');
             if(rg_passRef.current){
-                rg_passRef.current.focus();
+                if ("focus" in rg_passRef.current) {
+                    rg_passRef.current.focus();
+                }
             }
             return;
         }
@@ -75,7 +79,9 @@ const Login = () => {
         if (!email) {
             showError('请输入邮箱');
             if(rg_emlRef.current){
-                rg_emlRef.current.focus();
+                if ("focus" in rg_emlRef.current) {
+                    rg_emlRef.current.focus();
+                }
             }
             return;
         }else{
@@ -85,7 +91,9 @@ const Login = () => {
                 showError('邮箱格式不正确');
                 showError('邮箱格式不正确');
                 if(rg_emlRef.current){
-                    rg_emlRef.current.focus();
+                    if ("focus" in rg_emlRef.current) {
+                        rg_emlRef.current.focus();
+                    }
                 }
                 return;
             }
@@ -94,7 +102,9 @@ const Login = () => {
         if(!role){
             showError('请选择你的身份');
             if(rg_roleRef.current){
-                rg_roleRef.current.focus();
+                if ("focus" in rg_roleRef.current) {
+                    rg_roleRef.current.focus();
+                }
             }
             return;
         }

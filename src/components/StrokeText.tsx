@@ -17,7 +17,7 @@ const StrokeText: React.FC<Props> = ({ text }) => {
                     <stop offset="100%" style={{stopColor: '#eaeaea80', stopOpacity: 1}}/>
                 </linearGradient>
             </defs>
-            <text x="50%" y="50%" style={{fontSize: 50, StrokeWidth: 3,textAnchor: 'middle'}}
+            <text x="50%" y="50%" style={{fontSize: 50, strokeWidth: 3,textAnchor: 'middle'}}
                   fill="url(#fill-gradient)"
                   stroke="url(#gradient-top-bottom)">
                 {text}
