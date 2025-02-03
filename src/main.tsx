@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import  'bootstrap/dist/css/bootstrap.css'
 import  'bootstrap/dist/js/bootstrap.min.js'
 import { AuthProvider } from './authentication/AuthContext.tsx';
-import {ErrorProvider, useError} from "./components/ErrorContext.tsx";
+import {ErrorProvider} from "./components/ErrorContext.tsx";
 import './index.css'
 
 import App from './App.tsx'
