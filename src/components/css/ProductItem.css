@@ -2,8 +2,9 @@
     width: 100%;
     padding: 4px;
     border-radius: 10px;
-    border: 1px solid var(--shop-border-color);
+    /*border: 1px solid var(--shop-border-color);*/
     background-color: var(--shop-background-color);
+    margin-bottom: 10px;
 }
 .productItem img{
     border: 1px solid var(--shop-border-color);

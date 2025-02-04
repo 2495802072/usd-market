@@ -1,20 +1,20 @@
 :root{
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    background-color: #272c28;
 
-    --shop-background-color: #005050;
+    --shop-background-color: #272c28;
     --shop-hover-background-color: #565656;
 
-    --shop-border-color: #ffe883;
+    --shop-border-color: #F7F5B8;
 
-    --shop-a-color: #ffe883;
+    --shop-a-color: #A4C713;
     --shop-a-active-color: #eaeaea;
     --shop-a-hover-color: #eaeaea;
 
-    --shop-font-color: #ffe883;
+    --shop-font-color: #A4C713;
 
     --bs-body-color: #ffe883;
-    --bs-tertiary-bg: #005050;
-    --bs-border-color: #ffe883;
-    --bs-body-bg: #005050;
+    --bs-tertiary-bg: #F7F5B8;
+    --bs-border-color: #F7F5B8;
+    --bs-body-bg: #F7F5B8;
 }
