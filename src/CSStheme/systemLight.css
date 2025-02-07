@@ -4,6 +4,7 @@
     background-color: #242422;
 
     --shop-background-color: #242422;
+    --shop-storage-bg: #242422;
     --shop-background-img:url("/src/assets/img/黑晶石墙.jpeg");
     --shop-hover-background-color: #eaeaea;
 
@@ -30,6 +31,7 @@
         background-color: #eaeaea;
 
         --shop-background-color: #eaeaea;
+        --shop-storage-bg: #eaeaea;
         --shop-hover-background-color: #565656;
         --shop-background-img:url("/src/assets/img/黑白凹凸墙.jpg");
 

@@ -3,7 +3,7 @@
     padding: 4px;
     border-radius: 10px;
     border: 1px inset var(--shop-border-color2);
-    background-color: var(--shop-background-color);
+    background-color: var(--shop-storage-bg);
     margin-bottom: 10px;
 }
 .productItem img{

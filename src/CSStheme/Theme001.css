@@ -1,0 +1,25 @@
+:root{
+    color-scheme: dark light;
+    color: rgba(255, 255, 255, 0.87);
+    --shop-background-img: url("../assets/img/书卷城市背景.png");
+
+    background-color: #81a8a7;
+    --shop-background-color: #81a8a7;
+    --bs-tertiary-bg:#81a8a7;
+    --bs-body-bg: #81a8a7;
+
+    --shop-storage-bg: #c4e3d3;
+    --shop-border-color2: #c4e3d3;
+
+    --shop-hover-background-color: #fef9d1;
+    --shop-border-color: #fef9d1;
+    --bs-border-color: #fef9d1;
+    /*Bootstrap5*/
+    --bs-dropdown-link-active-bg: #fef9d1;
+    --shop-a-active-color: #fef9d1;
+    --shop-a-hover-color: #fef9d1;
+
+    --bs-body-color:  #fff;
+    --shop-a-color: #fff;
+    --shop-font-color: #fff;
+}
