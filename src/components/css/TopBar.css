@@ -5,7 +5,8 @@
     transition: padding-left 0.2s ease-in-out;
     display: flex;
     justify-content: flex-end;
-    border-bottom: 1px solid var(--shop-border-color);
+    border-bottom: 1px ridge var(--shop-border-color);
+    max-height: 41px;
 }
 
 .dropdown-menu{

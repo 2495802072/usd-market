@@ -2,14 +2,23 @@
     /*max-width: 1280px;*/
     width: 100%;
     margin: 0 0 14px 0;
-    padding: 20px;
+    padding: 40px 20px 10px 20px;
+    max-height: calc(100vh - 44px);
     text-align: center;
     overflow-x: hidden;
+    z-index: 50;
 }
 .page {
     /*padding-bottom: 46vh;*/
+    /*margin-bottom: 20px;*/
 }
 .list-box{
     padding-top: 2rem;
     flex: 2;
+}
+
+@media (max-width: 993px) {
+    #root {
+        margin-bottom: 3rem;
+    }
 }

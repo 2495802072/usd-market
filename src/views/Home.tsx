@@ -44,7 +44,7 @@ const SearchBox: React.FC<{ searchingBoxRef: React.RefObject<HTMLInputElement> }
                     <path d="M21 21l-6 -6"/>
                 </svg>
             </span>
-            <input id={'searchingBox'} ref={searchingBoxRef} type="text" className="form-control"
+            <input id={'searchingBox'} ref={searchingBoxRef} type="text" className={"form-control"}
                    aria-label="Amount (to the nearest searching)"/>
             <button className="btn btn-gold" type="button">搜索</button>
         </div>
@@ -52,7 +52,7 @@ const SearchBox: React.FC<{ searchingBoxRef: React.RefObject<HTMLInputElement> }
 );
 
 const Classification: React.FC = () => (
-    <div id={'classification'}>
+    <div id={'classification'} >
         <table className={'w-100'}>
             <tbody className={'w-100'}>
             <tr className={'btn-group w-100'}>

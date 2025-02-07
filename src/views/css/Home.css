@@ -29,9 +29,10 @@
     border: 1px solid var(--shop-border-color);
 }
 
-/*查找box*/
+/*搜索box*/
 .searching-box-home{
     margin: auto;
+    width: 100%;
 }
 #searching{
     position: relative;

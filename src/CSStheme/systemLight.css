@@ -8,6 +8,7 @@
     --shop-hover-background-color: #eaeaea;
 
     --shop-border-color: #eaeaea;
+    --shop-border-color2: #343434;
 
     --shop-a-color: #cacaca;
     --shop-a-active-color: #ffffff;
@@ -33,6 +34,7 @@
         --shop-background-img:url("/src/assets/img/黑白凹凸墙.jpg");
 
         --shop-border-color: #343434;
+        --shop-border-color2: #eaeaea;
 
         --shop-a-color: #565656;
         --shop-a-active-color: #343434;

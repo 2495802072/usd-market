@@ -31,6 +31,8 @@ body {
   padding-left: 230px;
   z-index: -200;
   background: var(--shop-background-img);
+
+  overflow:hidden;
 }
 
 h1 {
@@ -67,8 +69,6 @@ button:focus-visible {
   background-color: #f1f1f1; /* 滑块的颜色 */
   border: 1px solid #fff; /* 滑块的边框 */
 }
-
-
 
 /* 滚动条的角落 */
 ::-webkit-scrollbar-corner {

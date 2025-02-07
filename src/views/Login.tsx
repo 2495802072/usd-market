@@ -3,6 +3,8 @@ import {useRef, useState, FormEvent } from 'react';
 import {useNavigate} from "react-router-dom";
 import { useAuth } from '../authentication/AuthContext.tsx';
 import { useError } from "../components/ErrorContext.tsx";
+import ImgContainer from "../components/ImgContainer2.tsx";
+import gamepads from '../assets/img/游戏手柄.png';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -140,110 +142,114 @@ const Login = () => {
 
 
     return (
-        <div className="login_register">
+        <>
+            <ImgContainer imageUrl={gamepads} x={800} y={450} width={150} height={150} />
 
-            <ul className="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                <li className="nav-item" role="presentation">
-                    <a className="nav-link active" id="home-tab" data-bs-toggle="tab" href="#login" role="tab"
-                       aria-controls="login" aria-selected="true">登录</a>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <a className="nav-link" id="profile-tab" data-bs-toggle="tab" href="#register" role="tab"
-                       aria-controls="register" aria-selected="false">注册</a>
-                </li>
-            </ul>
+            <div className="login_register">
 
-            <div className="tab-content" id="myTabContent">
-                <div className="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="home-tab">
-                    <form onSubmit={handleLogin} className={"d-flex justify-content-center"}>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>用户名:</td>
-                                <td><input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    required
-                                /></td>
-                            </tr>
-                            <tr>
-                                <td>密码:</td>
-                                <td><input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                /></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <input className={'btn btn-gold'} type={'submit'} value={'登录'}/>
-                    </form>
-                </div>
+                <ul className="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                    <li className="nav-item" role="presentation">
+                        <a className="nav-link active" id="home-tab" data-bs-toggle="tab" href="#login" role="tab"
+                           aria-controls="login" aria-selected="true">登录</a>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <a className="nav-link" id="profile-tab" data-bs-toggle="tab" href="#register" role="tab"
+                           aria-controls="register" aria-selected="false">注册</a>
+                    </li>
+                </ul>
+
+                <div className="tab-content" id="myTabContent">
+                    <div className="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="home-tab">
+                        <form onSubmit={handleLogin} className={"d-flex justify-content-center"}>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>用户名:</td>
+                                    <td><input
+                                        type="text"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        required
+                                    /></td>
+                                </tr>
+                                <tr>
+                                    <td>密码:</td>
+                                    <td><input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    /></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <input className={'btn btn-gold'} type={'submit'} value={'登录'}/>
+                        </form>
+                    </div>
 
 
-                <div className="tab-pane fade" id="register" role="tabpanel" aria-labelledby="profile-tab">
-                    <form onSubmit={handleRegister} className={"d-flex justify-content-center"}>
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>用户名<label className={'ipt-msg'}>*</label>:</td>
-                                <td><input
-                                    id={'register_username_box'}
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    ref={rg_userRef}
-                                /></td>
-                            </tr>
-                            <tr>
-                                <td>邮箱<label className={'ipt-msg'}>*</label>:</td>
-                                <td><input
-                                    id={'register_email_box'}
-                                    type="text"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    ref={rg_emlRef}
-                                /></td>
-                            </tr>
-                            <tr>
-                                <td>密码<label className={'ipt-msg'}>*</label>:</td>
-                                <td><input
-                                    id={'register_password_box'}
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    ref={rg_passRef}
-                                /></td>
-                            </tr>
-                            <tr>
-                                <td>手机号:</td>
-                                <td><input
-                                    type="text"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                /></td>
-                            </tr>
-                            <tr>
-                                <td>身份<label className={'ipt-msg'}>*</label>:</td>
-                                <td>
-                                    <select className={'form-select'} id="role" name="role" value={role} ref={rg_roleRef}
-                                            onChange={(e) => setRole(e.target.value)}>
-                                        <option value='' disabled>请选择</option>
-                                        <option value="buyer">买家</option>
-                                        <option value="seller">卖家</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        &nbsp;&nbsp;
-                        <input className={'btn btn-gold'} type={'submit'} value={'注册'}/>
-                    </form>
+                    <div className="tab-pane fade" id="register" role="tabpanel" aria-labelledby="profile-tab">
+                        <form onSubmit={handleRegister} className={"d-flex justify-content-center"}>
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>用户名<label className={'ipt-msg'}>*</label>:</td>
+                                    <td><input
+                                        id={'register_username_box'}
+                                        type="text"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        ref={rg_userRef}
+                                    /></td>
+                                </tr>
+                                <tr>
+                                    <td>邮箱<label className={'ipt-msg'}>*</label>:</td>
+                                    <td><input
+                                        id={'register_email_box'}
+                                        type="text"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        ref={rg_emlRef}
+                                    /></td>
+                                </tr>
+                                <tr>
+                                    <td>密码<label className={'ipt-msg'}>*</label>:</td>
+                                    <td><input
+                                        id={'register_password_box'}
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        ref={rg_passRef}
+                                    /></td>
+                                </tr>
+                                <tr>
+                                    <td>手机号:</td>
+                                    <td><input
+                                        type="text"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    /></td>
+                                </tr>
+                                <tr>
+                                    <td>身份<label className={'ipt-msg'}>*</label>:</td>
+                                    <td>
+                                        <select className={'form-select'} id="role" name="role" value={role} ref={rg_roleRef}
+                                                onChange={(e) => setRole(e.target.value)}>
+                                            <option value='' disabled>请选择</option>
+                                            <option value="buyer">买家</option>
+                                            <option value="seller">卖家</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            &nbsp;&nbsp;
+                            <input className={'btn btn-gold'} type={'submit'} value={'注册'}/>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
