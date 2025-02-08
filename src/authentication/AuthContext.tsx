@@ -1,3 +1,6 @@
+//组件说明 - by 秦彦悦：
+// 作用域内使用useAuth方法获取登录信息
+// 防止名称冲突一般会先使用const {新的名称} = useAuth();
 import { createContext, useReducer, useContext, ReactNode, Dispatch } from 'react';
 
 // 定义用户和认证状态的类型

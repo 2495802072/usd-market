@@ -2,10 +2,10 @@ import React from "react";
 import './css/StorageItem.css'
 
 interface StorageItemProps {
-    imageUrl: string;
-    name: string;
-    info: string;
-    price: number;
+    imageUrl?: string;
+    name?: string;
+    info?: string;
+    price?: number;
 }
 
 const StorageItem:React.FC<StorageItemProps> = ({imageUrl = "",name = "未命名",info = "缺少简介",price = 0.00}) => {
@@ -19,9 +19,11 @@ const StorageItem:React.FC<StorageItemProps> = ({imageUrl = "",name = "未命名
                 </div>
             </div>
             <div style={{alignItems: 'center',justifyContent: 'center'}}>
+                <a className={'btn btn-gold truncate text-truncate'}>编辑</a>
+                <div style={{flex:2}}></div>
                 <label style={{color: 'red', marginRight: '1rem'}}>￥{price.toFixed(2)}</label>
-                <a className={'btn btn-gold'}>编辑</a>&nbsp;
-                <a className={'btn btn-gold'}>已售出</a>
+                <a className={'btn btn-gold truncate text-truncate'}>下/上架</a>&nbsp;
+                <a className={'btn btn-gold truncate text-truncate'}>已售出</a>
             </div>
         </div>
     )

@@ -1,3 +1,6 @@
+//组件说明 - by 秦彦悦：
+// 作用域内使用useError('报错信息')，
+// 一般使用const {showError} = useError 先重命名映射,防止方法冲突
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import './css/ErrorContext.css';
 
