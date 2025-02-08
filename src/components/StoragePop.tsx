@@ -6,11 +6,11 @@ interface ProductModalProps {
 }
 
 const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
-    const [imageUrl, _setImageUrl] = useState<string>('');
+    const [imageUrl, setImageUrl] = useState<string>('');
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number>(0);
-    const [type, setType] = useState<string>('');
+    const [type, setType] = useState<string>('请选择');
 
     // TODO 图片处理逻辑，大量bug
     // const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +34,11 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
     const handleSubmit = () => {
         // Handle form submission logic
         console.log({ imageUrl, name, description, price });
+        setImageUrl("");
+        setName("");
+        setDescription("");
+        setPrice(0);
+        setType('请选择');
         onClose();
     };
 
@@ -72,7 +77,7 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
                             <td>类型</td>
                             <td>
                                 <select value={type} onChange={(e) => setType(e.target.value)}>
-                                    <option value={''}>选项1</option>
+                                    <option value={'请选择'} disabled>请选择</option>
                                 </select>
                             </td>
                         </tr>
