@@ -1,18 +1,25 @@
 import React from "react";
 import './css/StorageItem.css'
 
-const StorageItem:React.FC = () => {
+interface StorageItemProps {
+    imageUrl: string;
+    name: string;
+    info: string;
+    price: number;
+}
+
+const StorageItem:React.FC<StorageItemProps> = ({imageUrl = "",name = "未命名",info = "缺少简介",price = 0.00}) => {
     return (
         <div className={'storageItem'}>
             <div>
-                <img className={'img3'} src="" alt="预览图"/>
+                <img className={'img3'} src={imageUrl} alt="预览图"/>
                 <div className={'d-block'} style={{textAlign: 'left',marginLeft: '1rem'}}>
-                    <h3>商品名称</h3>
-                    <p>商品简介</p>
+                    <h3>{name}</h3>
+                    <p>{info}</p>
                 </div>
             </div>
             <div style={{alignItems: 'center',justifyContent: 'center'}}>
-                <label style={{color: 'red', marginRight: '1rem'}}>￥0.00</label>
+                <label style={{color: 'red', marginRight: '1rem'}}>￥{price.toFixed(2)}</label>
                 <a className={'btn btn-gold'}>编辑</a>&nbsp;
                 <a className={'btn btn-gold'}>已售出</a>
             </div>

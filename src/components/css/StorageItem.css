@@ -1,5 +1,7 @@
 .storageItem{
-    width: 100%;
+    width: 20%;
+    margin: 0.5rem;
+    display: inline-block;
     padding: 4px;
     border-radius: 10px;
     border: 2px inset var(--shop-border-color2);
@@ -11,4 +13,11 @@
 .storageItem div{
     display: flex;
     margin-bottom: .5rem;
+}
+
+
+@media (max-width: 993px) {
+    .storageItem{
+        width: 90%;
+    }
 }
