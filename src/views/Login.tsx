@@ -1,5 +1,5 @@
 import './css/Login.css'
-import {useRef, useState, FormEvent, useEffect} from 'react';
+import {useRef, useState, FormEvent} from 'react';
 import {useNavigate} from "react-router-dom";
 import { useAuth } from '../authentication/AuthContext.tsx';
 import { useError } from "../components/ErrorContext.tsx";
@@ -54,13 +54,6 @@ const Login = () => {
             console.error('登录失败');
         }
     };
-
-
-    // 当刷新网页时自动获取的token，复原登录状态
-    useEffect(() => {
-        // 假设你使用的是sessionStorage来存储userid
-        const storedUserId = sessionStorage.getItem('token');
-    }, []); // 空依赖数组，表示只在组件挂载时执行一次
 
     const handleRegister = async (event: FormEvent) => {
         event.preventDefault();

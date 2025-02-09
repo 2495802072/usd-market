@@ -3,18 +3,18 @@ import './css/StorageItem.css'
 
 interface StorageItemProps {
     imageUrl?: string;
-    name?: string;
+    title?: string;
     info?: string;
     price?: number;
 }
 
-const StorageItem:React.FC<StorageItemProps> = ({imageUrl = "",name = "未命名",info = "缺少简介",price = 0.00}) => {
+const StorageItem:React.FC<StorageItemProps> = ({imageUrl = "",title = "未命名",info = "缺少简介",price = 0.00}) => {
     return (
         <div className={'storageItem'}>
             <div>
                 <img className={'img3'} src={imageUrl} alt="预览图"/>
                 <div className={'d-block'} style={{textAlign: 'left',marginLeft: '1rem'}}>
-                    <h3>{name}</h3>
+                    <h3>{title}</h3>
                     <p>{info}</p>
                 </div>
             </div>

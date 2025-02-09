@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 
 interface ProductModalProps {
     isOpen: boolean;
@@ -7,7 +7,7 @@ interface ProductModalProps {
 
 const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
     const [imageUrl, setImageUrl] = useState<string>('');
-    const [name, setName] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number>(0);
     const [type, setType] = useState<string>('请选择');
@@ -33,9 +33,22 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
 
     const handleSubmit = () => {
         // Handle form submission logic
-        console.log({ imageUrl, name, description, price });
+        const addProduct = async () => {
+            const response = await fetch('http://47.121.115.160:8280/api/products', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({imageUrl, title, description, price})
+            });
+        }
+
+        addProduct().then((res)=>{
+            console.log("added product");
+            console.log(res);
+        });
+
+        console.log({imageUrl, title, description, price});
         setImageUrl("");
-        setName("");
+        setTitle("");
         setDescription("");
         setPrice(0);
         setType('请选择');
@@ -63,7 +76,7 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
                                 {imageUrl && <img src={imageUrl} alt="Preview" width="100" />}
                             </td>
                             <td>标题：</td>
-                            <td><input type="text" className={'form-control'} value={name} onChange={(e) => setName(e.target.value)}/></td>
+                            <td><input type="text" className={'form-control'} value={title} onChange={(e) => setTitle(e.target.value)}/></td>
                         </tr>
                         <tr>
                             <td>介绍</td>
@@ -78,13 +91,17 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
                             <td>
                                 <select value={type} className={'form-control'} onChange={(e) => setType(e.target.value)}>
                                     <option value={'请选择'} disabled>请选择</option>
+                                    <option value={'大四促销'}>大四促销</option>
                                 </select>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-
-                    <button type="submit">Add Product</button>
+                    <hr/>
+                    <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                        <a onClick={onClose} className={"btn btn-gold"}>取消</a>
+                        <input type="submit" className={"btn btn-gold"} value={"添加商品"}/>
+                    </div>
                 </form>
             </div>
         </div>

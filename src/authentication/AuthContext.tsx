@@ -5,7 +5,7 @@ import { createContext, useReducer, useContext, ReactNode, Dispatch } from 'reac
 
 // 定义用户和认证状态的类型
 interface User {
-    userId: bigint;
+    userId: string;
     username: string;
     password: string;
     email: string;

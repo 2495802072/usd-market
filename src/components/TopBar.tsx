@@ -10,6 +10,7 @@ const TopBar: React.FC = () =>{
     const toLogin = () =>{
         navigate('/login');
     }
+    // TODO 登出方法实现
     const loginOut = () => {
         console.log(loginState.state.user?.username);
         console.log(loginState.state.user);

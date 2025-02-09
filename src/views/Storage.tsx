@@ -2,7 +2,8 @@ import './css/Storage.css'
 import StorageItem from "../components/StorageItem.tsx";
 import TopBar from "../components/TopBar.tsx";
 import StoragePop from "../components/StoragePop.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useError} from "../components/ErrorContext.tsx";
 
 const titleLineStyle = {
     width: '100%',
@@ -15,8 +16,18 @@ const titleLineStyle = {
     fontSize: '20px',
 }
 
+interface StorageItemType {
+    productId: number;
+    imgUrl: string;
+    title: string;
+    info: string;
+    price: number;
+}
+
 const Storage = () =>{
     const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
+    const [storageList, setStorageList] = useState<StorageItemType[]>([]);
+    const { showError } = useError();
 
     const openPop = () => {
         setIsPopOpen(true);
@@ -26,6 +37,25 @@ const Storage = () =>{
         setIsPopOpen(false);
     };
 
+    //更新storageList
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://47.121.115.160:8280/api/products');
+                if (!response.ok) {
+                    showError("后端服务未启动");
+                }
+                const data = await response.json();
+                setStorageList(data);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        };
+
+        fetchProducts().then((res)=>{
+            console.log(res);
+        });
+    }, []);
 
     return (
         <>
@@ -50,7 +80,7 @@ const Storage = () =>{
                     </a>
                 </div>
                 {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡机了 (((φ(◎ロ◎;)φ)))*/}
-                <StorageItem imageUrl={""} name={"未命名"} info={"缺少简介"} price={0}/>
+                <StorageItem imageUrl={""} title={"未命名"} info={"缺少简介"} price={0}/>
                 <StorageItem />
             </div>
         </>

@@ -1,5 +1,5 @@
 import './css/Login.css';
-import { useRef, useState, FormEvent, useEffect } from 'react';
+import { useRef, useState, FormEvent } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../authentication/AuthContext.tsx';
 import { useError } from "../components/ErrorContext.tsx";
@@ -49,31 +49,6 @@ const Login = () => {
             console.error('登录失败');
         }
     };
-
-    // // 当刷新网页时自动获取的token，复原登录状态
-    // useEffect(() => {
-    //     console.log("useEffect triggered");
-    //     const storedToken = Cookies.get('token');
-    //     console.log("Stored token:", storedToken);
-    //     if (storedToken) {
-    //         // 这里你可以调用一个API来获取用户信息并复原状态
-    //         // 假设有一个API可以通过token获取用户信息
-    //         fetch('http://47.121.115.160:8280/api/users/'+storedToken, {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Authorization': `Bearer ${storedToken}`
-    //             }
-    //         }).then(response => response.json())
-    //             .then(user => {
-    //                 dispatch({
-    //                     type: 'LOGIN',
-    //                     payload: user
-    //                 });
-    //             }).catch(error => {
-    //             console.error('复原登录状态失败', error);
-    //         });
-    //     }
-    // }, []); // 空依赖数组，表示只在组件挂载时执行一次
 
     const handleRegister = async (event: FormEvent) => {
         event.preventDefault();

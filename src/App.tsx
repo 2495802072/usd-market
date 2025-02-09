@@ -21,9 +21,7 @@ const App = () => {
 
     // 当刷新网页时自动获取的token，复原登录状态
     useEffect(() => {
-        console.log("useEffect triggered");
         const storedToken = Cookies.get('token');
-        console.log("Stored token:", storedToken);
         if (storedToken) {
             // 这里你可以调用一个API来获取用户信息并复原状态
             // 假设有一个API可以通过token获取用户信息
