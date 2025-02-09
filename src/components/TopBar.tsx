@@ -12,6 +12,8 @@ const TopBar: React.FC = () =>{
     }
     const loginOut = () => {
         console.log(loginState.state.user?.username);
+        console.log(loginState.state.user);
+        console.log(loginState.state.user?.email);
         console.log(loginState.state.isAuthenticated);
     }
 

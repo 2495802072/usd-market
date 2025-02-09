@@ -59,24 +59,24 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
                         <tr>
                             <td rowSpan={4}>
                                 <label>Image:</label>
-                                <input type="file" accept="image/*" />
+                                <input type="file" className={'form-control'} accept="image/*" />
                                 {imageUrl && <img src={imageUrl} alt="Preview" width="100" />}
                             </td>
                             <td>标题：</td>
-                            <td><input type="text" value={name} onChange={(e) => setName(e.target.value)}/></td>
+                            <td><input type="text" className={'form-control'} value={name} onChange={(e) => setName(e.target.value)}/></td>
                         </tr>
                         <tr>
                             <td>介绍</td>
-                            <td><textarea value={description} onChange={(e) => setDescription(e.target.value)}></textarea></td>
+                            <td><textarea value={description} className={'form-control'} onChange={(e) => setDescription(e.target.value)}></textarea></td>
                         </tr>
                         <tr>
                             <td>价格</td>
-                            <td><input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))}/></td>
+                            <td><input type="number" className={'form-control'} value={price} onChange={(e) => setPrice(Number(e.target.value))}/></td>
                         </tr>
                         <tr>
                             <td>类型</td>
                             <td>
-                                <select value={type} onChange={(e) => setType(e.target.value)}>
+                                <select value={type} className={'form-control'} onChange={(e) => setType(e.target.value)}>
                                     <option value={'请选择'} disabled>请选择</option>
                                 </select>
                             </td>
