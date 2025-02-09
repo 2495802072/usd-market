@@ -1,4 +1,6 @@
 import React, { useState} from 'react';
+import {useAuth} from "../authentication/AuthContext.tsx";
+import {useError} from "./ErrorContext.tsx";
 
 interface ProductModalProps {
     isOpen: boolean;
@@ -11,6 +13,8 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number>(0);
     const [type, setType] = useState<string>('请选择');
+    const loginState = useAuth();
+    const { showError } = useError();
 
     // TODO 图片处理逻辑，大量bug
     // const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,22 +35,39 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
     //     }
     // };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // Handle form submission logic
-        const addProduct = async () => {
-            const response = await fetch('http://47.121.115.160:8280/api/products', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({imageUrl, title, description, price})
-            });
+
+        const userId = loginState.state.user?.userId;
+
+        if (!userId){
+            showError("登录用户id获取失败");
+            return;
         }
 
-        addProduct().then((res)=>{
-            console.log("added product");
-            console.log(res);
+        // 构建请求体
+        const requestBody = {
+            seller: { userId },
+            title,
+            description,
+            price,
+            category: type,
+            status: '在售',
+        };
+
+        const response = await fetch('http://47.121.115.160:8280/api/products', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(requestBody)
         });
 
-        console.log({imageUrl, title, description, price});
+        if (response.ok){
+            const {imageUrl1, title1, description1, price1} = await response.json();
+            console.log(imageUrl1);
+            console.log(title1);
+            console.log(description1);
+            console.log(price1);
+        }
         setImageUrl("");
         setTitle("");
         setDescription("");
