@@ -7,10 +7,7 @@ import TopBar from "../components/TopBar.tsx";
 const searchHistory: string[] = ["123", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd"]
 
 
-const SearchHistoryComponent: React.FC<{ history: string[], onSelect: (item: string) => void }> = ({
-                                                                                                       history,
-                                                                                                       onSelect
-                                                                                                   }) => {
+const SearchHistoryComponent: React.FC<{ history: string[], onSelect: (item: string) => void }> = ({history, onSelect}) => {
     return (
         <div id='searchingHistory' className='text-truncate' style={{backgroundColor: 'var(--shop-background-color)'}}>
             <table>

@@ -31,7 +31,7 @@ export const ErrorProvider: React.FC<ErrorProviderProps> = ({ children }) => {
         setVisible(true);
         setTimeout(() => {
             setVisible(false);
-        }, 1500); // 动画时间 500ms + 显示时间 1000ms
+        }, 2500); // 动画时间 500ms + 显示时间 2000ms
     };
 
     return (
@@ -52,7 +52,7 @@ const ErrorPopup: React.FC<ErrorPopupProps> = ({ message }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setAnimationClass('popup-exit');
-        }, 1000); // 显示1秒后开始退出动画
+        }, 2000); // 显示2秒后开始退出动画
         return () => clearTimeout(timer);
     }, []);
 

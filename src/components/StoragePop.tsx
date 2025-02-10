@@ -5,9 +5,10 @@ import {useError} from "./ErrorContext.tsx";
 interface ProductModalProps {
     isOpen: boolean;
     onClose: () => void;
+    listChange: () => void;
 }
 
-const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
+const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose , listChange}) => {
     const [imageUrl, setImageUrl] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -55,6 +56,7 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
             status: '在售',
         };
 
+        //发送请求
         const response = await fetch('http://47.121.115.160:8280/api/products', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -62,17 +64,16 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
         });
 
         if (response.ok){
-            const {imageUrl1, title1, description1, price1} = await response.json();
-            console.log(imageUrl1);
-            console.log(title1);
-            console.log(description1);
-            console.log(price1);
+            const {title, price} = await response.json();
+            console.log(title +"  ￥"+ price + "添加成功");
         }
+
         setImageUrl("");
         setTitle("");
         setDescription("");
         setPrice(0);
         setType('请选择');
+        listChange();
         onClose();
     };
 
@@ -87,7 +88,7 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose }) => {
                 {/*关闭按钮 (废弃)*/}
                 {/*<span className="close" onClick={onClose}>&times;</span>*/}
                 <h4>Add Product</h4>
-                <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                <form onSubmit={(e) => { e.preventDefault(); handleSubmit().then(); }}>
                     <table className="testTable">
                         <tbody>
                         <tr>

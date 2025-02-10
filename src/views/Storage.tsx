@@ -4,6 +4,7 @@ import TopBar from "../components/TopBar.tsx";
 import StoragePop from "../components/StoragePop.tsx";
 import {useEffect, useState} from "react";
 import {useError} from "../components/ErrorContext.tsx";
+import {useAuth} from "../authentication/AuthContext.tsx";
 
 const titleLineStyle = {
     width: '100%',
@@ -28,6 +29,7 @@ const Storage = () =>{
     const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
     const [storageList, setStorageList] = useState<StorageItemType[]>([]);
     const { showError } = useError();
+    const loginState = useAuth();
 
     const openPop = () => {
         setIsPopOpen(true);
@@ -37,30 +39,43 @@ const Storage = () =>{
         setIsPopOpen(false);
     };
 
-    //TODO 更新storageList
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch('http://47.121.115.160:8280/api/products');
-                if (!response.ok) {
-                    showError("后端服务未启动");
-                }
-                const data = await response.json();
-                setStorageList(data);
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
+    //获取后端用户商品数据
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://47.121.115.160:8280/api/products/bySeller', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({userId})
+            });
+            if (!response.ok) {
+                showError("后端/api/products访问出错，请联系管理员");
             }
-        };
+            const data = await response.json();
+            // console.log("响应：");
+            // console.log(data);
+            setStorageList(data);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    };
 
-        fetchProducts().then((res)=>{
-            console.log(res);
-        });
-    }, []);
+    const userId = loginState.state.user?.userId;
+    //更新storageList
+    useEffect(() => {
+        if(userId){
+            console.log('userId ', userId);
+            fetchProducts().then();
+        }
+    }, [userId]);
+
+    useEffect(() => {
+        console.log("当前商品列表", storageList);
+    }, [storageList]); // 在 storageList 更新后打印
 
     return (
         <>
             <TopBar />
-            <StoragePop isOpen={isPopOpen} onClose={closePop} />
+            <StoragePop isOpen={isPopOpen} onClose={closePop} listChange={fetchProducts}/>
             <div id={'storageBox'}>
                 <div style={titleLineStyle}>
                     <label className={'m-2'}>我的货架</label>
@@ -80,8 +95,9 @@ const Storage = () =>{
                     </a>
                 </div>
                 {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡机了 (((φ(◎ロ◎;)φ)))*/}
-                <StorageItem imageUrl={""} title={"未命名"} info={"缺少简介"} price={0}/>
-                <StorageItem />
+                {storageList.map((item,index) => (
+                    <StorageItem key={index} imageUrl={item.imgUrl} title={item.title} info={item.info} price={item.price} />
+                ))}
             </div>
         </>
     )

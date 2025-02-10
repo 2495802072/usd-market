@@ -3,8 +3,8 @@ import { useRef, useState, FormEvent } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../authentication/AuthContext.tsx';
 import { useError } from "../components/ErrorContext.tsx";
-import ImgContainer from "../components/ImgContainer2.tsx";
-import gamepads from '../assets/img/游戏手柄.png';
+// import ImgContainer from "../components/ImgContainer2.tsx";
+// import gamepads from '../assets/img/游戏手柄.png';
 import Cookies from 'js-cookie';
 
 const Login = () => {
@@ -131,7 +131,7 @@ const Login = () => {
 
     return (
         <>
-            <ImgContainer imageUrl={gamepads} x={800} y={450} width={150} height={150} />
+            {/*<ImgContainer imageUrl={gamepads} x={800} y={450} width={150} height={150} />*/}
             <div className="login_register">
                 <ul className="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
