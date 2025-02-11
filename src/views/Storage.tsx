@@ -17,6 +17,7 @@ const titleLineStyle = {
     fontSize: '20px',
 }
 
+// TODO 前后端包括数据库添加type字段
 interface StorageItemType {
     productId: number;
     imgUrl: string;
@@ -27,13 +28,31 @@ interface StorageItemType {
 
 const Storage = () =>{
     const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
+    const [imageUrl, setImageUrl] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+    const [price, setPrice] = useState<number>(0);
+    const [type, setType] = useState<string>('请选择');
+    const [pTitle, setPTitle] = useState<string>('添加商品');
+
     const [storageList, setStorageList] = useState<StorageItemType[]>([]);
     const { showError } = useError();
     const loginState = useAuth();
 
     const openPop = () => {
+        setPTitle("添加商品");
         setIsPopOpen(true);
     };
+
+    const setEdit = (s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) =>{
+        setPTitle("编辑商品");
+        setImageUrl(s_url);
+        setTitle(s_title);
+        setDescription(s_des);
+        setPrice(s_price);
+        setType(s_type);
+        setIsPopOpen(true);
+    }
 
     const closePop = () => {
         setIsPopOpen(false);
@@ -75,7 +94,8 @@ const Storage = () =>{
     return (
         <>
             <TopBar />
-            <StoragePop isOpen={isPopOpen} onClose={closePop} listChange={fetchProducts}/>
+            <StoragePop popTitle={pTitle} isOpen={isPopOpen} onClose={closePop} listChange={fetchProducts} imageUrl={imageUrl} setImageUrl={setImageUrl}
+            title={title} setTitle={setTitle} description={description} setDescription={setDescription} price={price} setPrice={setPrice} type={type} setType={setType} />
             <div id={'storageBox'}>
                 <div style={titleLineStyle}>
                     <label className={'m-2'}>我的货架</label>
@@ -96,7 +116,7 @@ const Storage = () =>{
                 </div>
                 {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡机了 (((φ(◎ロ◎;)φ)))*/}
                 {storageList.map((item,index) => (
-                    <StorageItem key={index} imageUrl={item.imgUrl} title={item.title} info={item.info} price={item.price} />
+                    <StorageItem key={index} imageUrl={item.imgUrl} title={item.title} info={item.info} price={item.price} edit={setEdit} />
                 ))}
             </div>
         </>
