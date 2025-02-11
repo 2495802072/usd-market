@@ -46,6 +46,7 @@ const Login = () => {
             navigate('/');
         } else {
             // 处理错误
+            showError("服务获取失败");
             console.error('登录失败');
         }
     };

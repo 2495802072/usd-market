@@ -1,19 +1,29 @@
-import React, { useState} from 'react';
+import React from 'react';
 import {useAuth} from "../authentication/AuthContext.tsx";
 import {useError} from "./ErrorContext.tsx";
 
 interface ProductModalProps {
+    popTitle: string;
     isOpen: boolean;
     onClose: () => void;
     listChange: () => void;
+    imageUrl?: string;
+    setImageUrl?: (imageUrl: string) => void;
+    title?: string;
+    setTitle?: (title: string) => void;
+    description?: string;
+    setDescription?: (description: string) => void;
+    price?: number;
+    setPrice?: (price: number) => void;
+    type?: string;
+    setType?: (type: string) => void;
 }
 
-const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose , listChange}) => {
-    const [imageUrl, setImageUrl] = useState<string>('');
-    const [title, setTitle] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
-    const [price, setPrice] = useState<number>(0);
-    const [type, setType] = useState<string>('请选择');
+const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , listChange, imageUrl = '', setImageUrl = ()=>{console.log('StoragePop参数set方法传输失败')},
+                                                 title='', setTitle= ()=>{console.log('StoragePop参数set方法传输失败')},
+                                                 description='',setDescription = ()=>{console.log('StoragePop参数set方法传输失败')},
+                                                 price=0,setPrice = ()=>{console.log('StoragePop参数set方法传输失败')},
+                                                 type='请选择',setType = ()=>{console.log('StoragePop参数set方法传输失败')}}) => {
     const loginState = useAuth();
     const { showError } = useError();
 
@@ -87,7 +97,7 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose , listChange}
             <div className="pop-content">
                 {/*关闭按钮 (废弃)*/}
                 {/*<span className="close" onClick={onClose}>&times;</span>*/}
-                <h4>Add Product</h4>
+                <h4>{popTitle}</h4>
                 <form onSubmit={(e) => { e.preventDefault(); handleSubmit().then(); }}>
                     <table className="testTable">
                         <tbody>
@@ -122,7 +132,7 @@ const StoragePop: React.FC<ProductModalProps> = ({ isOpen, onClose , listChange}
                     <hr/>
                     <div style={{display: 'flex', justifyContent: 'space-around'}}>
                         <a onClick={onClose} className={"btn btn-gold"}>取消</a>
-                        <input type="submit" className={"btn btn-gold"} value={"添加商品"}/>
+                        <input type="submit" className={"btn btn-gold"} value={"确定"}/>
                     </div>
                 </form>
             </div>
