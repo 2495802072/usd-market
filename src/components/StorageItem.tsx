@@ -3,22 +3,23 @@ import './css/StorageItem.css'
 
 interface StorageItemProps {
     _key?: number,
+    proId: bigint,
     imageUrl?: string,
     title?: string,
     info?: string,
     price?: number,
     key?: number,
     type?: string,
-    edit: (s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) => void
+    edit: (s_id: bigint,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) => void
 }
 
 // Eslint一直给key={index}的写法报错没有key参数, _key的作用就是绕过Eslint的检测（实在不想动Eslint）
 const StorageItem: React.FC<StorageItemProps> = ({imageUrl = "", title = "未命名", info = "缺少简介", price = 0.00,type='请选择',
-                                                     _key =-1,edit
+                                                     _key =-1,edit,proId
                                                  }) => {
 
     const parse_edit = () =>{
-        edit(imageUrl,title,info,price,type);
+        edit(proId,imageUrl,title,info,price,type);
     }
 
     return (

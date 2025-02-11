@@ -3,6 +3,7 @@ import StorageItem from "../components/StorageItem.tsx";
 import TopBar from "../components/TopBar.tsx";
 import StoragePop from "../components/StoragePop.tsx";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {useError} from "../components/ErrorContext.tsx";
 import {useAuth} from "../authentication/AuthContext.tsx";
 
@@ -19,15 +20,18 @@ const titleLineStyle = {
 
 // TODO 前后端包括数据库添加type字段
 interface StorageItemType {
-    productId: number;
+    productId: bigint;
     imgUrl: string;
     title: string;
     info: string;
     price: number;
+    category: string;
 }
 
 const Storage = () =>{
     const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
+
+    const [productId, setProductId] = useState<bigint>();
     const [imageUrl, setImageUrl] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -41,10 +45,12 @@ const Storage = () =>{
 
     const openPop = () => {
         setPTitle("添加商品");
+        setProductId(undefined);
         setIsPopOpen(true);
     };
 
-    const setEdit = (s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) =>{
+    const setEdit = (s_id: bigint ,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) =>{
+        setProductId(s_id);
         setPTitle("编辑商品");
         setImageUrl(s_url);
         setTitle(s_title);
@@ -57,6 +63,11 @@ const Storage = () =>{
     const closePop = () => {
         setIsPopOpen(false);
     };
+
+    const navigate = useNavigate();
+    const toLogin = () =>{
+        navigate('/login');
+    }
 
     //获取后端用户商品数据
     const fetchProducts = async () => {
@@ -94,8 +105,9 @@ const Storage = () =>{
     return (
         <>
             <TopBar />
-            <StoragePop popTitle={pTitle} isOpen={isPopOpen} onClose={closePop} listChange={fetchProducts} imageUrl={imageUrl} setImageUrl={setImageUrl}
+            <StoragePop popTitle={pTitle} isOpen={isPopOpen} onClose={closePop} listChange={fetchProducts} proId={productId} imageUrl={imageUrl} setImageUrl={setImageUrl}
             title={title} setTitle={setTitle} description={description} setDescription={setDescription} price={price} setPrice={setPrice} type={type} setType={setType} />
+
             <div id={'storageBox'}>
                 <div style={titleLineStyle}>
                     <label className={'m-2'}>我的货架</label>
@@ -116,8 +128,14 @@ const Storage = () =>{
                 </div>
                 {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡机了 (((φ(◎ロ◎;)φ)))*/}
                 {storageList.map((item,index) => (
-                    <StorageItem key={index} imageUrl={item.imgUrl} title={item.title} info={item.info} price={item.price} edit={setEdit} />
+                    <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.info} price={item.price} type={item.category} edit={setEdit} />
                 ))}
+                {!useAuth().state.isAuthenticated && <>
+                    <label className={"w-50 m-2"} style={{fontSize: '20px', fontWeight: "bold",border: "1px solid var(--shop-border-color)"}}>
+                        请先
+                        <a className={"btn fw-bold"} onClick={toLogin}>登录↗</a>
+                    </label>
+                </>}
             </div>
         </>
     )

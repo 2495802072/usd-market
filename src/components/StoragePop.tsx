@@ -7,6 +7,7 @@ interface ProductModalProps {
     isOpen: boolean;
     onClose: () => void;
     listChange: () => void;
+    proId?: bigint;
     imageUrl?: string;
     setImageUrl?: (imageUrl: string) => void;
     title?: string;
@@ -19,7 +20,7 @@ interface ProductModalProps {
     setType?: (type: string) => void;
 }
 
-const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , listChange, imageUrl = '', setImageUrl = ()=>{console.log('StoragePop参数set方法传输失败')},
+const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , listChange, proId, imageUrl = '', setImageUrl = ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  title='', setTitle= ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  description='',setDescription = ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  price=0,setPrice = ()=>{console.log('StoragePop参数set方法传输失败')},
@@ -48,16 +49,14 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
 
     const handleSubmit = async () => {
         // Handle form submission logic
-
         const userId = loginState.state.user?.userId;
-
         if (!userId){
             showError("登录用户id获取失败");
             return;
         }
-
         // 构建请求体
         const requestBody = {
+            productId: proId,
             seller: { userId },
             title,
             description,
@@ -65,8 +64,7 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
             category: type,
             status: '在售',
         };
-
-        //发送请求
+        //构建请求
         const response = await fetch('http://47.121.115.160:8280/api/products', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -75,7 +73,9 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
 
         if (response.ok){
             const {title, price} = await response.json();
-            console.log(title +"  ￥"+ price + "添加成功");
+            console.log(title +"  ￥"+ price + "操作成功");
+        }else {
+            console.log("商品变动失败");
         }
 
         setImageUrl("");
@@ -86,6 +86,8 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
         listChange();
         onClose();
     };
+
+
 
     if (!isOpen) {
         return null;
