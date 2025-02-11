@@ -18,7 +18,6 @@ const titleLineStyle = {
     fontSize: '20px',
 }
 
-// TODO 前后端包括数据库添加type字段
 interface StorageItemType {
     productId: bigint;
     imgUrl: string;
