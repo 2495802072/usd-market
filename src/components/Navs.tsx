@@ -185,8 +185,10 @@ const Navs: React.FC = () => {
                         );
                     }}
                 </NavLink>
-                <div style={{flex: '2'}}></div>
+                {!isMobile &&
+                <div style={{flex: '2'}}></div> }
                 {/*关于*/}
+                {!isMobile &&
                 <NavLink to="/about" className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
                     {({isActive}) => {
                         return (
@@ -207,6 +209,7 @@ const Navs: React.FC = () => {
                         );
                     }}
                 </NavLink>
+                }
             </nav>
             <div style={isScroll ? {display: 'auto'} : {display: 'none'}}>
             </div>

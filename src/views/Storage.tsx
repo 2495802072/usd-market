@@ -125,7 +125,7 @@ const Storage = () =>{
                         添加商品
                     </a>
                 </div>
-                {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡机了 (((φ(◎ロ◎;)φ)))*/}
+                {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡崩溃了 (((φ(◎ロ◎;)φ)))*/}
                 {storageList.map((item,index) => (
                     <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.info} price={item.price} type={item.category} edit={setEdit} />
                 ))}

@@ -27,7 +27,19 @@ const StorageItem: React.FC<StorageItemProps> = ({imageUrl = "", title = "未命
             {/*不调用_key不允许build*/}
             <div style={{display: "none"}}>{_key}</div>
             <div>
-                <img className={'img3'} src={imageUrl} alt="预览图"/>
+                {imageUrl ?
+                    <img style={{maxHeight:"80px",maxWidth: "80px"}} className={'img3'} src={imageUrl} alt="预览图"/>
+                    :
+                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor"
+                         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                         className="icon icon-tabler icons-tabler-outline icon-tabler-brand-airtable">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 10v8l7 -3v-2.6z"/>
+                        <path d="M3 6l9 3l9 -3l-9 -3z"/>
+                        <path d="M14 12.3v8.7l7 -3v-8z"/>
+                    </svg>
+                }
                 <div className={'d-block'} style={{textAlign: 'left', marginLeft: '1rem'}}>
                     <h3>{title}</h3>
                     <p>{info}</p>

@@ -14,7 +14,7 @@ const IconWithText: React.FC<IconWithTextProps> = ({ text, icon, className, styl
             overflow: 'hidden',
             width: '50%',
             display: 'flex',
-            justifyContent: 'flex-start',
+            justifyContent: text === "" ? 'flex-start' : 'center',
             transform: 'translateY(2px)',
             ...style, // 合并传入的样式
         }}
