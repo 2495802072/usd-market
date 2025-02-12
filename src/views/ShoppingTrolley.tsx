@@ -1,6 +1,7 @@
 import './css/ShoppingTrolley.css'
+import TrolleyItem from "../components/TrolleyItem.tsx";
 
-function NotFound(){
+function ShoppingTrolley(){
     return (
         <div id={"TrolleyRoot"} className={"d-flex flex-column"}>
             <div className="list-box d-flex flex-column ">
@@ -16,6 +17,7 @@ function NotFound(){
                         checkbox
                     </label>
                 </div>
+                <TrolleyItem />
             </div>
             <div id={"OrderBox"} className={"fixed-bottom"}>
                 <table className={"w-100"}>
@@ -37,4 +39,4 @@ function NotFound(){
     )
 }
 
-export default NotFound;
+export default ShoppingTrolley;

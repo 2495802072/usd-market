@@ -1,9 +1,10 @@
 #root {
     /*max-width: 1280px;*/
+    --bottom-height: 14px;
     width: 100%;
-    margin: 0 0 14px 0;
-    padding: 40px 20px 10px 20px;
-    max-height: calc(100vh - 44px);
+    margin: 0 0 var(--bottom-height) 0;
+    padding: 40px 20px 0 20px;
+    height: calc(100vh - var(--bottom-height));
     text-align: center;
     overflow-x: hidden;
     z-index: 50;
@@ -12,6 +13,7 @@
 .page {
     /*padding-bottom: 46vh;*/
     /*margin-bottom: 20px;*/
+    height: 100%;
 }
 .list-box{
     padding-top: 2rem;

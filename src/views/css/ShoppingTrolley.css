@@ -1,4 +1,12 @@
 #TrolleyRoot{
+    --orderBox-height: 80px;
+    height: 100%;
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - var(--orderBox-height));
+    padding-bottom: calc(var(--orderBox-height) - var(--bottom-height) + 5px);
+}
+
+#OrderBox{
+    height: var(--orderBox-height);
+    background-color: var(--shop-background-color);
 }
