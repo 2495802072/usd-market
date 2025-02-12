@@ -37,7 +37,7 @@ const Login = () => {
             console.log("token : " + token);
             // 保存JWT
             Cookies.set('token', token, { expires: 1 });
-            // 更新应用状态（例如使用Context或Redux）
+            // 更新应用状态
             dispatch({
                 type: 'LOGIN',
                 payload: user
@@ -84,7 +84,7 @@ const Login = () => {
             return;
         } else {
             //判断邮箱格式正确
-            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!emailPattern.test(email)) {
                 showError('邮箱格式不正确');
                 if (rg_emlRef.current) {
@@ -117,7 +117,7 @@ const Login = () => {
             console.log("token : " + token);
             // 保存JWT
             Cookies.set('token', token, { expires: 1 });
-            // 更新应用状态（例如使用Context或Redux）
+            // 更新应用状态
             dispatch({
                 type: 'LOGIN',
                 payload: user

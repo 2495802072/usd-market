@@ -2,6 +2,7 @@ import './css/TopBar.css';
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../authentication/AuthContext.tsx";
+import Cookies from "js-cookie";
 
 
 const TopBar: React.FC = () =>{
@@ -10,12 +11,13 @@ const TopBar: React.FC = () =>{
     const toLogin = () =>{
         navigate('/login');
     }
-    // TODO 登出方法实现
+
     const loginOut = () => {
-        console.log(loginState.state.user?.username);
-        console.log(loginState.state.user);
-        console.log(loginState.state.user?.email);
-        console.log(loginState.state.isAuthenticated);
+        Cookies.remove('token');
+        console.log("用户登出");
+        //刷新页面
+        window.location.reload();
+        toLogin();
     }
 
     return (
