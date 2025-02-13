@@ -1,7 +1,27 @@
 .Trolley-Item{
     width: 100%;
-    margin: 0;
     padding: 5px;
+    display: inline-block;
+    border-radius: 10px;
+    border: 2px inset var(--shop-border-color2);
+    background-color: var(--shop-storage-bg);
+    margin: 3px;
+}
+.Trolley-Item div{
     display: flex;
+    margin-bottom: 0;
+    justify-content: space-around;
+    align-content: center;
 }
 
+.form-check-item{
+    width: 100%;
+    border-left: 1px double var(--shop-border-color);
+}
+.form-check{
+    padding-left: 0;
+}
+
+.item-info{
+    width: 90%;
+}
