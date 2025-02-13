@@ -16,7 +16,7 @@ const TopBar: React.FC = () =>{
         Cookies.remove('token');
         console.log("用户登出");
         //刷新页面
-        window.location.reload();
+        // window.location.reload();
         toLogin();
     }
 
