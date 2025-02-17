@@ -7,7 +7,7 @@ import About from "./views/About.tsx";
 import NotFound from "./views/NotFound.tsx";
 import Navs from "./components/Navs.tsx";
 import User from "./views/User.tsx";
-import ShoppingTrolley from "./views/ShoppingTrolley.tsx";
+import Likes from "./views/Likes.tsx";
 import OrderList from "./views/OrderList.tsx";
 import Message from "./views/Message.tsx";
 import Storage from "./views/Storage.tsx";
@@ -52,7 +52,7 @@ const App = () => {
                         <Route path="/" element={<Home/>}/>
                         <Route path="/storage" element={<Storage/>}/>
                         <Route path="/user" element={<User/>}/>
-                        <Route path="/shoppingTrolley" element={<ShoppingTrolley/>}/>
+                        <Route path="/shoppingTrolley" element={<Likes/>}/>
                         <Route path="/orderList" element={<OrderList/>}/>
                         <Route path="/message" element={<Message/>}/>
                         <Route path="/about" element={<About/>}/>

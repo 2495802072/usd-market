@@ -8,7 +8,7 @@ interface TrolleyItemProps {
     price?: number,
 }
 
-const TrolleyItem: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命名",info = "缺少简介",price=0}) => {
+const LikedItems: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命名",info = "缺少简介",price=0}) => {
     return (
         <>
             <div className="Trolley-Item">
@@ -40,7 +40,7 @@ const TrolleyItem: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命�
                     <div style={{alignItems: 'center', justifyContent: 'center'}}>
                         <div style={{flex: 2}}></div>
                         <label style={{color: 'red', marginRight: '1rem'}}>￥{price.toFixed(2)}</label>
-                        <a className={'btn btn-gold truncate text-truncate'}>结算</a>&nbsp;
+                        <a className={'btn btn-gold truncate text-truncate'}>联系商家</a>&nbsp;
                         <a className={'btn btn-gold truncate text-truncate'}>删除</a>
                     </div>
                 </div>
@@ -49,4 +49,4 @@ const TrolleyItem: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命�
     )
 };
 
-export default TrolleyItem;
+export default LikedItems;
