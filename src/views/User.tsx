@@ -1,16 +1,21 @@
 import './css/User.css'
-import React from "react";
+import React, {FormEvent, useEffect} from "react";
 import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../authentication/AuthContext.tsx";
+import {useError} from "../components/ErrorContext.tsx";
 
 const User: React.FC = () => {
+    const { showMsg } = useError();
     const navigate = useNavigate();
+    const loginState = useAuth();
     const [openPassword, setOpenPassword] = React.useState(false);
 
-    const [username, setUsername] = React.useState('unnamed');
-    const [password, setPassword] = React.useState('');
-    const [email, setEmail] = React.useState('email@unnamed.com');
-    const [phone, setPhone] = React.useState('none');
+    const [userId, _setUserId] = React.useState(Cookies.get('token'));
+    const [username, setUsername] = React.useState(loginState.state.user?.username || '');
+    const [password, setPassword] = React.useState(loginState.state.user?.password || '');
+    const [email, setEmail] = React.useState(loginState.state.user?.email || '');
+    const [phone, setPhone] = React.useState(loginState.state.user?.phone || '');
 
     const loginOut = () => {
         Cookies.remove('token');
@@ -18,8 +23,38 @@ const User: React.FC = () => {
         navigate('/login');
     }
 
+    useEffect(() => {
+        if (loginState.state.user) {
+            setUsername(loginState.state.user.username || '');
+            setPassword(loginState.state.user.password || '');
+            setEmail(loginState.state.user.email || '');
+            setPhone(loginState.state.user.phone || '');
+        }
+    }, [loginState.state.user]);
+
     const turnOnPasswordBox = () => {
         setOpenPassword(true);
+    }
+
+    const changeUserInfo = async (event: FormEvent) =>{
+        event.preventDefault();
+        //update用户信息请求体
+        const response = await fetch('http://47.121.115.160:8280/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, username, password, email, phone  })
+        });
+
+        if (response.ok) {
+            const {token, user} = await response.json();
+            console.log("user : " + user);
+            console.log("token : " + token);
+            showMsg("修改成功");
+        }else{
+            //处理错误
+            showMsg("服务获取失败");
+        }
+
     }
 
 
@@ -32,7 +67,7 @@ const User: React.FC = () => {
                     <tbody>
                     <tr>
                         <td></td>
-                        <td><label className={"w-100"} style={{textAlign:"left"}}>NO.{Cookies.get('token')}</label></td>
+                        <td><label className={"w-100"} style={{textAlign:"left"}}>NO.{userId}</label></td>
                     </tr>
                     <tr style={{borderTop:"1px solid var(--shop-border-color)"}}>
                         <td>
