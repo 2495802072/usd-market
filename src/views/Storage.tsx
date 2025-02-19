@@ -28,6 +28,7 @@ interface StorageItemType {
 }
 
 const Storage = () =>{
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
 
     const [productId, setProductId] = useState<bigint>();
@@ -71,7 +72,7 @@ const Storage = () =>{
     //获取后端用户商品数据
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://47.121.115.160:8280/api/products/bySeller', {
+            const response = await fetch(apiUrl+'/api/products/bySeller', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({userId})

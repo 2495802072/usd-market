@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 
 const App = () => {
     const { dispatch } = useAuth();
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     // 当刷新网页时自动获取的token，复原登录状态
     useEffect(() => {
@@ -25,7 +26,7 @@ const App = () => {
         if (storedToken) {
             // 这里你可以调用一个API来获取用户信息并复原状态
             // 假设有一个API可以通过token获取用户信息
-            fetch('http://47.121.115.160:8280/api/users/'+storedToken, {
+            fetch(apiUrl+'/api/users/'+storedToken, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${storedToken}`

@@ -50,6 +50,7 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
     const handleSubmit = async () => {
         // Handle form submission logic
         const userId = loginState.state.user?.userId;
+        const apiUrl = import.meta.env.VITE_API_BASE_URL;
         if (!userId){
             showError("登录用户id获取失败");
             return;
@@ -65,7 +66,7 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
             status: '在售',
         };
         //构建请求
-        const response = await fetch('http://47.121.115.160:8280/api/products', {
+        const response = await fetch(apiUrl+'/api/products', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(requestBody)

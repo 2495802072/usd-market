@@ -22,11 +22,13 @@ const Login = () => {
     const { dispatch } = useAuth();
     // Err弹窗方法重命名
     const { showError } = useError();
+    //设置全局访问地址
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
         // 登录API
-        const response = await fetch('http://47.121.115.160:8280/api/users/login', {
+        const response = await fetch(apiUrl+'/api/users/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -46,7 +48,7 @@ const Login = () => {
             navigate('/');
         } else {
             // 处理错误
-            showError("服务获取失败");
+            showError(await response.text());
             console.error('登录失败');
         }
     };
@@ -106,7 +108,7 @@ const Login = () => {
             return;
         }
         // 注册API
-        const response = await fetch('http://47.121.115.160:8280/api/users', {
+        const response = await fetch(apiUrl+'/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password, phone, role })

@@ -6,14 +6,15 @@ import {useAuth} from "../authentication/AuthContext.tsx";
 import {useError} from "../components/ErrorContext.tsx";
 
 const User: React.FC = () => {
-    const { showMsg } = useError();
+    const { showError } = useError();
     const navigate = useNavigate();
     const loginState = useAuth();
     const [openPassword, setOpenPassword] = React.useState(false);
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     const [userId, _setUserId] = React.useState(Cookies.get('token'));
     const [username, setUsername] = React.useState(loginState.state.user?.username || '');
-    const [password, setPassword] = React.useState(loginState.state.user?.password || '');
+    const [password, setPassword] = React.useState('');
     const [email, setEmail] = React.useState(loginState.state.user?.email || '');
     const [phone, setPhone] = React.useState(loginState.state.user?.phone || '');
 
@@ -26,7 +27,6 @@ const User: React.FC = () => {
     useEffect(() => {
         if (loginState.state.user) {
             setUsername(loginState.state.user.username || '');
-            setPassword(loginState.state.user.password || '');
             setEmail(loginState.state.user.email || '');
             setPhone(loginState.state.user.phone || '');
         }
@@ -38,8 +38,10 @@ const User: React.FC = () => {
 
     const changeUserInfo = async (event: FormEvent) =>{
         event.preventDefault();
+        console.log(password);
         //update用户信息请求体
-        const response = await fetch('http://47.121.115.160:8280/api/users', {
+        // 47.121.115.160
+        const response = await fetch(apiUrl+'/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId, username, password, email, phone  })
@@ -49,10 +51,10 @@ const User: React.FC = () => {
             const {token, user} = await response.json();
             console.log("user : " + user);
             console.log("token : " + token);
-            showMsg("修改成功");
+            showError("修改成功");
         }else{
             //处理错误
-            showMsg("服务获取失败");
+            showError(await response.text());
         }
 
     }
@@ -78,14 +80,25 @@ const User: React.FC = () => {
                         <td><input className={"form-control"} type="text" value={username} onChange={(e) =>{setUsername(e.target.value)}}/></td>
                     </tr>
                     <tr>
-                        <td>新密码</td>
-                        {openPassword ?
-                            <td><input className={"form-control"} type="password" value={''} onChange={(e) =>{setPassword(e.target.value)}} onBlurCapture={loginOut}/></td> :
+                        <td>密码</td>
+                        <td>
+                            {/*轶闻趣事：对于密码的处理上，因为密码加密过，本身无法还原显示，同样也导致，更新的时候，不小心对加密的密码进行了二次加密，导致莫名其妙的密码不正确，登陆失败*/}
+                            {openPassword ?<input className={"form-control"} type="password" value={password} onChange={(e) =>{setPassword(e.target.value)}}
+                                                  onBlurCapture={(e)=> {
+                                                      changeUserInfo(e).then(() => {
+                                                          // 在 changeUserInfo 执行完之后，延迟2秒执行 loginOut
+                                                          setTimeout(() => {
+                                                              loginOut();
+                                                          }, 2000); // 2000 毫秒（2秒）的延迟
+                                                      })
+                                                  }}
+                                                  /> :
                             <a className={"btn btn-golds"} onClick={turnOnPasswordBox}>修改密码</a>}
+                        </td>
                     </tr>
                     <tr>
                         <td>邮箱</td>
-                        <td><input className={"form-control"} type="text" value={email} onChange={(e) => {
+                        <td><input className={"form-control"} type="text" value={email} onBlurCapture={changeUserInfo} onChange={(e) => {
                             setEmail(e.target.value)
                         }}/></td>
                     </tr>
@@ -94,10 +107,6 @@ const User: React.FC = () => {
                         <td><input className={"form-control"} type="text" value={phone} onChange={(e) => {
                             setPhone(e.target.value)
                         }}/></td>
-                    </tr>
-                    <tr>
-                        <td>用户名</td>
-                        <td><input className={"form-control"} type="text" value={username}/></td>
                     </tr>
                     <tr>
                         <td colSpan={2}>
