@@ -7,7 +7,7 @@ interface ProductModalProps {
     isOpen: boolean;
     onClose: () => void;
     listChange: () => void;
-    proId?: bigint;
+    proId?: number;
     imageUrl?: string;
     setImageUrl?: (imageUrl: string) => void;
     title?: string;
@@ -65,7 +65,7 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
             category: type,
             status: '在售',
         };
-        //构建请求
+        //构建请求  添加商品/更新商品
         const response = await fetch(apiUrl+'/api/products', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

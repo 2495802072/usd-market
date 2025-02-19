@@ -4,14 +4,14 @@ import './css/StorageItem.css'
 // TODO 开发结束后记得删除_key
 interface StorageItemProps {
     _key?: number,
-    proId: bigint,
+    proId: number,
     imageUrl?: string,
     title?: string,
     info?: string,
     price?: number,
     key?: number,
     type?: string,
-    edit: (s_id: bigint,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) => void
+    edit: (s_id: number,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) => void
 }
 
 // Eslint一直给key={index}的写法报错没有key参数, _key的作用就是绕过Eslint的检测（实在不想动Eslint）

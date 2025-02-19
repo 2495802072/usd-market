@@ -19,10 +19,10 @@ const titleLineStyle = {
 }
 
 interface StorageItemType {
-    productId: bigint;
+    productId: number;
     imgUrl: string;
     title: string;
-    info: string;
+    description: string;
     price: number;
     category: string;
 }
@@ -31,7 +31,7 @@ const Storage = () =>{
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
 
-    const [productId, setProductId] = useState<bigint>();
+    const [productId, setProductId] = useState<number>(0);
     const [imageUrl, setImageUrl] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -45,11 +45,11 @@ const Storage = () =>{
 
     const openPop = () => {
         setPTitle("添加商品");
-        setProductId(undefined);
+        setProductId(0);
         setIsPopOpen(true);
     };
 
-    const setEdit = (s_id: bigint ,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) =>{
+    const setEdit = (s_id: number ,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) =>{
         setProductId(s_id);
         setPTitle("编辑商品");
         setImageUrl(s_url);
@@ -128,7 +128,7 @@ const Storage = () =>{
                 </div>
                 {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡崩溃了 (((φ(◎ロ◎;)φ)))*/}
                 {storageList.map((item,index) => (
-                    <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.info} price={item.price} type={item.category} edit={setEdit} />
+                    <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.description} price={item.price} type={item.category} edit={setEdit} />
                 ))}
                 {!useAuth().state.isAuthenticated && <>
                     <label className={"w-50 m-2"} style={{fontSize: '20px', fontWeight: "bold",border: "1px solid var(--shop-border-color)"}}>
