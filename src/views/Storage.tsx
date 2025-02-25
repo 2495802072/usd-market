@@ -90,7 +90,7 @@ const Storage = () =>{
     };
 
     const userId = loginState.state.user?.userId;
-    //更新storageList
+    //userId变化更新storageList
     useEffect(() => {
         if(userId){
             console.log('userId ', userId);

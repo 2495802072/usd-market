@@ -2,10 +2,30 @@ import './css/Home.css';
 import React, {useEffect, useRef, useState} from "react";
 import ProductItem from "../components/ProductItem.tsx";
 import TopBar from "../components/TopBar.tsx";
+import {useError} from "../components/ErrorContext.tsx";
+import Cookies from "js-cookie";
 
 // 搜索历史,保留10个
 const searchHistory: string[] = ["123", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd"]
 
+interface ProductItemType {
+    productId: number;
+    imgUrl: string;
+    title: string;
+    description: string;
+    price: number;
+    category: string;
+}
+
+interface LikesItemType {
+    likesId: number;
+    product: {
+        productId: number;
+    };
+    user: {
+        userId: number;
+    };
+}
 
 const SearchHistoryComponent: React.FC<{ history: string[], onSelect: (item: string) => void }> = ({history, onSelect}) => {
     return (
@@ -124,9 +144,12 @@ const LittleCard: React.FC = () => {
 }
 
 const Home: React.FC = () => {
-
-
     const searchingBoxRef = useRef<HTMLInputElement | null>(null);
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const userId = Cookies.get("token");
+    const { showError } = useError();
+    const [productList,setProductList] = useState<ProductItemType[]>([]);
+    const [likedProductIdList,setLikedProductIdList] = useState<number[]>([]);
 
     const handleSelectHistoryItem = (item: string) => {
         if (searchingBoxRef.current) {
@@ -135,6 +158,59 @@ const Home: React.FC = () => {
             }
         }
     };
+
+    //获取后端用户商品数据
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch(apiUrl+'/api/products', {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            });
+
+            if (!response.ok) {
+                showError("后端/api/products GET访问出错，请联系管理员");
+                return;
+            }
+            const data = await response.json();
+            // console.log("响应：");
+            // console.log(data);
+            setProductList(data);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    };
+
+    //获取用户likes数据,从Home获取全部到前端，减少后端访问频率
+    const fetchLikes = async () => {
+        try {
+            const response = await fetch(apiUrl+'/api/likes/buyer', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({userId})
+            });
+
+            if(!response.ok){
+                // showError("后端/likes/buyer访问出错，请联系管理员");
+                showError(await response.text());
+                return;
+            }
+
+            const data = await response.json();
+            console.log("响应：");
+            console.log(data);
+            // 轶闻趣事/遇到的问题: 我一开始使用 LikedProductIdList[key] = value 设置更新，但这在React中是不规范的，导致状态未更新，使得fetch外使用include(value)一直不对
+            const newLikedProductIdList = data.map((item:LikesItemType) => item.product.productId);
+            setLikedProductIdList(newLikedProductIdList);
+        } catch (error) {
+            showError('（开发） fetch 后端数据出错')
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchProducts().then();
+        fetchLikes().then();
+    }, []);
 
     return (
         <>
@@ -155,12 +231,11 @@ const Home: React.FC = () => {
                 <br/>
 
                 {/*商品列表*/}
+                {/*轶闻趣事/遇到的问题：访问后端获取数据的时候likedProductIdList.includes(item.productId)打印是true，但是到了map遍历，一直false*/}
                 <div id={'productList'}>
-                    <ProductItem/>
-                    <ProductItem/>
-                    <ProductItem/>
-                    <ProductItem/>
-                    <ProductItem/>
+                    {productList.map((item,index) => (
+                        <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} imageUrl={item.imgUrl} productId={item.productId} title={item.title} info={item.description} price={item.price} type={item.category} />
+                    ))}
                 </div>
             </div>
         </>

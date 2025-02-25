@@ -7,6 +7,7 @@ import {ErrorProvider} from "./components/ErrorContext.tsx";
 import './index.css'
 
 import App from './App.tsx'
+// TODO StrictMode严格模式在开发结束后可以注释关闭
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,5 +16,5 @@ createRoot(document.getElementById('root')!).render(
               <App />
           </AuthProvider>
       </ErrorProvider>
-  </StrictMode>,
+  </StrictMode>
 )

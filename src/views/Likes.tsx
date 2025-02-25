@@ -1,7 +1,6 @@
 import './css/Likes.css'
 import LikedItems from "../components/LikedItems.tsx";
 import TopBar from "../components/TopBar.tsx";
-import React from "react";
 
 function Likes(){
     return (
