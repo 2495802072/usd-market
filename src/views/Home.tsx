@@ -208,9 +208,14 @@ const Home: React.FC = () => {
     };
 
     useEffect(() => {
+        //未登录不处理likes表
+        if(userId){
+            fetchLikes().then();
+            // TODO 登陆后去除首页自己的商品
+            
+        }
         fetchProducts().then();
-        fetchLikes().then();
-    }, []);
+    }, [userId]);
 
     return (
         <>

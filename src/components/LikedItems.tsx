@@ -2,10 +2,11 @@ import "./css/TrolleyItem.css"
 import React from "react";
 
 interface TrolleyItemProps {
+    key: number,
     imageUrl?: string,
     title?: string,
     info?: string,
-    price?: number,
+    price?: number
 }
 
 const LikedItems: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命名",info = "缺少简介",price=0}) => {
