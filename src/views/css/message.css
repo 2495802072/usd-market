@@ -1,0 +1,11 @@
+.message-contacts{
+    width: 200px;
+    height: 100%;
+    background-color: var(--shop-background-color);
+    transform: translateX(-20px);
+
+}
+.message-main{
+    width: 80%;
+    height: 100%;
+}

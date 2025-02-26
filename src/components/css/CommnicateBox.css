@@ -1,0 +1,13 @@
+.communicate-main-box{
+    display: flex;
+    flex-direction: column;
+}
+.messagesBox{
+    margin-bottom: 10px;
+}
+
+@media (max-width: 993px) {
+    .messagesBox{
+        margin-bottom: 50px;
+    }
+}
