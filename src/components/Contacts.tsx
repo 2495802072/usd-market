@@ -12,7 +12,7 @@ interface ContactsProps {
 }
 
 
-const Contacts:React.FC<ContactsProps> = ({userId,name="unNamed",_email="none",_phone="none",setReceiveId = () => {}}) =>{
+const Contacts:React.FC<ContactsProps> = ({userId,name="unNamed",setReceiveId = () => {}}) =>{
 
     const setContact = () => {
         setReceiveId(userId);

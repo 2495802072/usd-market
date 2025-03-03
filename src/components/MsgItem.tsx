@@ -37,10 +37,10 @@ const dateStyle = {
 }
 
 const MsgItem:React.FC<MsgItemProps> = ({data}) => {
-    const userId = Cookies.get("token");
-    const flag = data.sender.userId == userId;
+    const userId = Cookies.get("token"); // userId 是 string | undefined
+    const flag: boolean = userId !== undefined && data.sender.userId.toString() === userId;
 
-    function formatDate(dateString) {
+    function formatDate(dateString:string) {
         const date = new Date(dateString);
         return date.toLocaleString('zh-CN', {
             year: 'numeric',
