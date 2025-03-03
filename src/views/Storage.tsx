@@ -127,10 +127,15 @@ const Storage = () =>{
                     </a>
                 </div>
                 {/*轶闻趣事： 我不小心组件名少写了Item，导致该页面引用自身，让网页该page卡崩溃了 (((φ(◎ロ◎;)φ)))*/}
-                {storageList.map((item,index) => (
-                    <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.description} price={item.price} type={item.category} edit={setEdit} />
-                ))}
-                {!useAuth().state.isAuthenticated && <>
+                {useAuth().state.isAuthenticated ?
+                    <>
+                        {storageList.map((item,index) => (
+                            <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.description} price={item.price} type={item.category} edit={setEdit} />
+                        ))}
+                    </>
+
+                    :
+                    <>
                     <label className={"w-50 m-2"} style={{fontSize: '20px', fontWeight: "bold",border: "1px solid var(--shop-border-color)"}}>
                         请先
                         <a className={"btn fw-bold"} onClick={toLogin}>登录↗</a>

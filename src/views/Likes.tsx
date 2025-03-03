@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import {useError} from "../components/ErrorContext.tsx";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../authentication/AuthContext.tsx";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface LikesItemType {
@@ -79,7 +80,7 @@ const Likes = () => {
         <>
             <TopBar/>
             <div id={"TrolleyRoot"} className={"d-flex flex-column"}>
-                {userId? <>
+                {useAuth().state.isAuthenticated ? <>
                         <div className="list-box d-flex flex-column ">
                             {likedProductList.map((item,index) => (
                                 <LikedItems key={index} title={item.product.title} info={item.product.description} price={item.product.price}/>
