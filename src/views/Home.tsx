@@ -5,16 +5,26 @@ import TopBar from "../components/TopBar.tsx";
 import {useError} from "../components/ErrorContext.tsx";
 import Cookies from "js-cookie";
 
-// 搜索历史,保留10个
+// TODO 搜索历史,保留10个
 const searchHistory: string[] = ["123", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd"]
 
 interface ProductItemType {
-    productId: number;
-    imgUrl: string;
-    title: string;
-    description: string;
-    price: number;
-    category: string;
+    productId: number,
+    seller: {
+        userId: number,
+        username: string,
+        email: string,
+        phone: string,
+        role: null,
+    },
+    title: string,
+    description: string,
+    price: number,
+    category: string,
+    status: string,
+    imageUrl: string,
+    createdAt: string,
+    updatedAt: string
 }
 
 interface LikesItemType {
@@ -239,7 +249,7 @@ const Home: React.FC = () => {
                 {/*轶闻趣事/遇到的问题：访问后端获取数据的时候likedProductIdList.includes(item.productId)打印是true，但是到了map遍历，一直false*/}
                 <div id={'productList'}>
                     {productList.map((item,index) => (
-                        <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} imageUrl={item.imgUrl} productId={item.productId} title={item.title} info={item.description} price={item.price} type={item.category} />
+                        <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} data={item} />
                     ))}
                 </div>
             </div>
