@@ -104,6 +104,35 @@ const ProductItem: React.FC<IProductItem> = ({data,liked}) => {
         }
     }
 
+    const addTransaction = async () =>{
+        try {
+            const response = await fetch(apiUrl+'/api/transaction',{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    product: {
+                        productId: data.productId
+                    },
+                    buyer: {
+                        userId: userId
+                    },
+                    //TODO 完善订单信息填报
+                    status: "送达",
+                    address: "暂无",
+                    note: "无备注"
+                })
+            })
+            //出错显示错误信息
+            if(!response.ok){
+                showError(await response.text());
+            }
+            navigate('/message');
+
+        } catch (error) {
+            showError('（开发） fetch 后端数据出错')
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    }
 
     const changeIsLiked = () => {
         //删除收藏
@@ -169,6 +198,7 @@ const ProductItem: React.FC<IProductItem> = ({data,liked}) => {
                     </svg>
                 </button>
                 <a className={'btn btn-gold'} onClick={addContacts}>联系商家</a>
+                <a className={'btn btn-gold'} onClick={addTransaction}>立即购买</a>
             </div>
         </div>
     )

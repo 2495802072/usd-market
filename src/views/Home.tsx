@@ -190,6 +190,27 @@ const Home: React.FC = () => {
         }
     };
 
+    const fetchProductsLongin = async () => {
+        try {
+            const response = await fetch(apiUrl+'/api/products/findAll/home', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({userId})
+            });
+
+            if (!response.ok) {
+                showError("后端/api/products POST访问出错，请联系管理员");
+                return;
+            }
+            const data = await response.json();
+            // console.log("响应：");
+            // console.log(data);
+            setProductList(data);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    };
+
     //获取用户likes数据,从Home获取全部到前端，减少后端访问频率
     const fetchLikes = async () => {
         try {
@@ -222,9 +243,10 @@ const Home: React.FC = () => {
         if(userId){
             fetchLikes().then();
             // TODO 登陆后去除首页自己的商品
-            
+            fetchProductsLongin().then();
+        }else{
+            fetchProducts().then();
         }
-        fetchProducts().then();
     }, [userId]);
 
     return (
