@@ -37,6 +37,7 @@ const Navs: React.FC = () => {
                     textAlign: 'center'
                 }}>物易站</a>
                 <br/>
+                {/*TODO 单独设计系统管理员的界面*/}
                 {/*首页*/}
                 <NavLink to="/" end className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
                     {({isActive}) => {
