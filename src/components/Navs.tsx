@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {NavLink} from 'react-router-dom';
 import NavItemBg from "./NavItemBackground.tsx";
 import IconWithText from "./IconWithText.tsx";
+import Cookies from "js-cookie";
 
 
 const Navs: React.FC = () => {
@@ -111,7 +112,6 @@ const Navs: React.FC = () => {
                             </>
                         );
                     }}
-                {/*TODO 根据角色身份调整nav*/}
                 </NavLink>
                 {/*订单s*/}
                 <NavLink to="/orderList" className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
@@ -187,14 +187,67 @@ const Navs: React.FC = () => {
                         );
                     }}
                 </NavLink>
+
+                {/*管理员NAV*/}
+                {Cookies.get("token") == 0 && <label style = {{fontSize:'12px'}}>---------管理层---------</label>}
+                {/*商品类别*/}
+                {(Cookies.get("token") == 0) &&
+                    <NavLink to="/type" className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
+                        {({isActive}) => {
+                            return (
+                                <>
+                                    <NavItemBg color={'var(--shop-border-color)'} show={!isMobile && isActive ? 'block' : 'none'}/>
+                                    <IconWithText
+                                        text={isMobile || isScroll ? "" : "类别管理"}
+                                        icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                   strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                                                   className="icon icon-tabler icons-tabler-outline icon-tabler-category-plus">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6"/>
+                                        </svg>}
+                                    />
+                                </>
+                            );
+                        }}
+                    </NavLink>
+                }
+                {/*用户列表*/}
+                {(Cookies.get("token") == 0) &&
+                    <NavLink to="/usermanager"
+                             className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
+                    {({isActive}) => {
+                            return (
+                                <>
+                                    <NavItemBg color={'var(--shop-border-color)'} show={!isMobile && isActive ? 'block' : 'none'}/>
+                                    <IconWithText
+                                        text={isMobile || isScroll ? "" : "用户列表"}
+                                        icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                   strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                                                   className="icon icon-tabler icons-tabler-outline icon-tabler-users-plus">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+                                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901"/>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                            <path d="M16 19h6"/>
+                                            <path d="M19 16v6"/>
+                                        </svg>}
+                                    />
+                                </>
+                            );
+                    }}
+                    </NavLink>
+                }
+
                 {!isMobile &&
-                <div style={{flex: '2'}}></div> }
+                    <div style={{flex: '2'}}></div>}
                 {/*关于*/}
                 {!isMobile &&
-                <NavLink to="/about" className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
-                    {({isActive}) => {
-                        return (
-                            <>
+                    <NavLink to="/about" className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
+                        {({isActive}) => {
+                            return (
+                                <>
                                 <NavItemBg color={'var(--shop-border-color)'} show={!isMobile && isActive ? 'block' : 'none'}/>
                                 <IconWithText
                                     text={isMobile || isScroll ? "" : "关于"}

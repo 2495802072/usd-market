@@ -1,9 +1,7 @@
 import React from "react";
 import './css/StorageItem.css'
 
-// TODO 开发结束后记得删除_key
 interface StorageItemProps {
-    _key?: number,
     proId: number,
     imageUrl?: string,
     title?: string,
@@ -16,7 +14,7 @@ interface StorageItemProps {
 
 // Eslint一直给key={index}的写法报错没有key参数, _key的作用就是绕过Eslint的检测（实在不想动Eslint）
 const StorageItem: React.FC<StorageItemProps> = ({imageUrl = "", title = "未命名", info = "缺少简介", price = 0.00,type= 0,
-                                                     _key =-1,edit,proId
+                                                     edit,proId
                                                  }) => {
 
     const parse_edit = () =>{
@@ -25,8 +23,6 @@ const StorageItem: React.FC<StorageItemProps> = ({imageUrl = "", title = "未命
 
     return (
         <div className={'storageItem'}>
-            {/*不调用_key不允许build*/}
-            <div style={{display: "none"}}>{_key}</div>
             <div>
                 {imageUrl ?
                     <img style={{maxHeight:"80px",maxWidth: "80px"}} className={'img3'} src={imageUrl} alt="预览图"/>

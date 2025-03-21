@@ -15,6 +15,8 @@ import Login from "./views/Login2.tsx";
 import {useEffect} from "react";
 import {useAuth} from "./authentication/AuthContext.tsx";
 import Cookies from "js-cookie";
+import TypeManager from "./views/TypeManager.tsx";
+import UserManager from "./views/UserManager.tsx";
 
 const App = () => {
     const { dispatch } = useAuth();
@@ -58,6 +60,8 @@ const App = () => {
                         <Route path="/message" element={<Message/>}/>
                         <Route path="/about" element={<About/>}/>
                         <Route path="/login" element={<Login/>}/>
+                        <Route path="/type" element={<TypeManager/>}/>
+                        <Route path="/usermanager" element={<UserManager/>}/>
 
                         <Route path="*" element={<NotFound/>}/>
                     </Routes>

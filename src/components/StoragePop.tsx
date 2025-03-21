@@ -107,11 +107,6 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
     }
 
 
-
-
-
-
-
     return (
         // 黑色半透明幕布弹窗，仅自身触发onClick
         <div className="pop-win" onClick={(event) => event.currentTarget === event.target? onClose() : undefined}>
