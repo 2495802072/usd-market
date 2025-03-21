@@ -36,7 +36,7 @@ const Storage = () =>{
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number>(0);
-    const [type, setType] = useState<string>('请选择');
+    const [type, setType] = useState<number>(0);
     const [pTitle, setPTitle] = useState<string>('添加商品');
 
     const [storageList, setStorageList] = useState<StorageItemType[]>([]);

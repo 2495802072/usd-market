@@ -3,31 +3,48 @@ import Cookies from "js-cookie";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface Order {
-    transactionId: string;
-    buyer: {
-        userId: number;
-        username: string;
-        email: string;
-        phone: string;
-        role: string;
-    };
+    transactionId: number,
     product: {
-        productId: number;
-        title: string;
-        price: number;
+        productId: number,
         seller: {
-            userId: number;
-            username: string;
-            email: string;
-            phone: string;
-            role: string;
-        };
-    };
-    status: string;
-    createdAt: string;
-    updatedAt: string;
-    address: string;
-    note: string;
+            userId: number,
+            username: string,
+            email: string,
+            phone: string,
+            role: string,
+            avatarUrl: string
+        },
+        category: {
+            categoryId: number,
+            name: string,
+            description: string
+        },
+        title: string,
+        description: string,
+        price: number,
+        status: string
+    },
+    buyer: {
+        userId: number,
+        username: string,
+        email: string,
+        phone: string,
+        role: string,
+        avatarUrl: string
+    },
+    seller: {
+        userId: number,
+        username: string,
+        email: string,
+        phone: string,
+        role: string,
+        avatarUrl: string
+    },
+    status: string,
+    address: string,
+    note: string,
+    createdAt: null,
+    updatedAt: null
 }
 
 const OrderList: React.FC = () => {
@@ -36,29 +53,26 @@ const OrderList: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const userId = Cookies.get("token");
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await fetch(apiUrl+'/api/transaction/user',{
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        buyer: {userId: userId}
-                    })
-                }); // 假设后端接口是 /api/orders
+    const fetchOrders = async () => {
+        try {
+            const response = await fetch(apiUrl+'/api/transactions/buyer/'+userId,{
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            });
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch orders');
-                }
-                const data = await response.json();
-                setOrders(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+            if (!response.ok) {
+                throw new Error('Failed to fetch orders');
             }
-        };
+            const data = await response.json();
+            setOrders(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchOrders().then();
     }, []);
 
@@ -78,7 +92,7 @@ const OrderList: React.FC = () => {
                     <li key={index}>
                         <h2>订单ID: {order.transactionId}</h2>
                         <p>买家: {order.buyer.username}</p>
-                        <p>卖家: {order.product.seller.username}</p>
+                        <p>卖家: {order.seller.username}</p>
                         <p>商品: {order.product.title}</p>
                         <p>价格: ¥{order.product.price}</p>
                         <p>状态: {order.status}</p>

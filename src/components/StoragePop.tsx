@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAuth} from "../authentication/AuthContext.tsx";
 import {useError} from "./ErrorContext.tsx";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface ProductModalProps {
     popTitle: string;
@@ -16,41 +17,30 @@ interface ProductModalProps {
     setDescription?: (description: string) => void;
     price?: number;
     setPrice?: (price: number) => void;
-    type?: string;
-    setType?: (type: string) => void;
+    type?: number;
+    setType?: (type: number) => void;
+}
+
+interface TypeInter {
+    categoryId: number,
+    name: string,
+    description: string
 }
 
 const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , listChange, proId, imageUrl = '', setImageUrl = ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  title='', setTitle= ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  description='',setDescription = ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  price=0,setPrice = ()=>{console.log('StoragePop参数set方法传输失败')},
-                                                 type='请选择',setType = ()=>{console.log('StoragePop参数set方法传输失败')}}) => {
+                                                 type= 0,setType = ()=>{console.log('StoragePop参数set方法传输失败')}}) => {
     const loginState = useAuth();
     const { showError } = useError();
 
-    // TODO 图片处理逻辑，大量bug
-    // const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     if (event.target.files && event.target.files[0]) {
-    //         const formData = new FormData();
-    //         formData.append('file', event.target.files[0]);
-    //
-    //         try {
-    //             const response = await axios.post('/upload', formData, {
-    //                 headers: {
-    //                     'Content-Type': 'multipart/form-data'
-    //                 }
-    //             });
-    //             setImageUrl(response.data.url);
-    //         } catch (error) {
-    //             console.error('Image upload failed:', error);
-    //         }
-    //     }
-    // };
+
+    // TODO 图片上传存储逻辑
 
     const handleSubmit = async () => {
         // Handle form submission logic
         const userId = loginState.state.user?.userId;
-        const apiUrl = import.meta.env.VITE_API_BASE_URL;
         if (!userId){
             showError("登录用户id获取失败");
             return;
@@ -62,9 +52,10 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
             title,
             description,
             price,
-            category: type,
+            category: {categoryId : type},
             status: '在售',
         };
+
         //构建请求  添加商品/更新商品
         const response = await fetch(apiUrl+'/api/products', {
             method: 'POST',
@@ -74,7 +65,7 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
 
         if (response.ok){
             const {title, price} = await response.json();
-            console.log(title +"  ￥"+ price + "操作成功");
+            console.log(title +" ￥"+ price + "操作成功");
         }else {
             console.log("商品变动失败");
         }
@@ -83,16 +74,39 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
         setTitle("");
         setDescription("");
         setPrice(0);
-        setType('请选择');
+        setType(0);
         listChange();
         onClose();
     };
 
-
-
     if (!isOpen) {
         return null;
     }
+
+    const [typeList,setTypeList] = useState<TypeInter[]>([]);
+    // 获取类型列表
+    const getProductsTypes = async () => {
+        try {
+            const response = await fetch(apiUrl+'/api/categories', {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            });
+
+            if (!response.ok) {
+                showError("后端/api/categories GET访问出错，请联系管理员");
+                return;
+            }
+            const types = await response.json();
+            setTypeList(types);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    };
+
+
+    useEffect(() => {
+        getProductsTypes().then();
+    }, []);
 
     return (
         // 黑色半透明幕布弹窗，仅自身触发onClick
@@ -124,9 +138,11 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
                         <tr>
                             <td>类型</td>
                             <td>
-                                <select value={type} className={'form-control'} onChange={(e) => setType(e.target.value)}>
-                                    <option value={'请选择'} disabled>请选择</option>
-                                    <option value={'大四促销'}>大四促销</option>
+                                <select value={type} className={'form-control'} onChange={(e) => setType(Number(e.target.value))}>
+                                    <option value={0} disabled>请选择</option>
+                                    {typeList.map((item, index) => (
+                                        <option key={index} value={item.categoryId}>{item.name}</option>
+                                    ))}
                                 </select>
                             </td>
                         </tr>

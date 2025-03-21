@@ -15,22 +15,28 @@ interface LikesItemType {
         seller: {
             userId: number,
             username: string,
-            password: string,
             email: string,
-            phone: string
+            phone: string,
+            role: string,
+            avatarUrl: string
+        },
+        category: {
+            categoryId: number,
+            name: string,
+            description: string
         },
         title: string,
         description: string,
         price: number,
-        category: string,
         status: string
     },
     buyer: {
         userId: number,
         username: string,
-        password: string,
         email: string,
-        phone: string
+        phone: string,
+        role: string,
+        avatarUrl: string
     }
 }
 

@@ -32,10 +32,13 @@ interface LikesItemType {
     product: {
         productId: number;
     };
-    user: {
+    buyer: {
         userId: number;
     };
 }
+
+
+
 
 const SearchHistoryComponent: React.FC<{ history: string[], onSelect: (item: string) => void }> = ({history, onSelect}) => {
     return (
@@ -239,10 +242,9 @@ const Home: React.FC = () => {
     };
 
     useEffect(() => {
-        //未登录不处理likes表
+        //未登录不处理likes表,登陆后去除首页自己的商品
         if(userId){
             fetchLikes().then();
-            // TODO 登陆后去除首页自己的商品
             fetchProductsLongin().then();
         }else{
             fetchProducts().then();
