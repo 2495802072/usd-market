@@ -183,7 +183,7 @@ const LittleCard: React.FC = () => {
 const Home: React.FC = () => {
     const searchingBoxRef = useRef<HTMLInputElement | null>(null);
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
-    const userId = Cookies.get("token");
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
     const { showError } = useError();
     const [productList,setProductList] = useState<ProductItemType[]>([]);
     const [likedProductIdList,setLikedProductIdList] = useState<number[]>([]);
@@ -192,7 +192,8 @@ const Home: React.FC = () => {
     const handleSearch = (query: string) => {
         addSearchHistory(query);
         setSearchHistory(getSearchHistory());
-        // TODO 添加实际的搜索逻辑
+        // 触发搜索
+        searchProducts().then();
     };
 
     const clearSearchHistory = () => {
@@ -229,24 +230,23 @@ const Home: React.FC = () => {
         }
     };
 
-    const fetchProductsLongin = async () => {
-        try {
-            const response = await fetch(apiUrl+'/api/products/findAll/home', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({userId})
-            });
+    const searchProducts = async () => {
+        if ("value" in searchingBoxRef.current){
+            try {
+                const response = await fetch(apiUrl+'/api/products/byTitle/' + searchingBoxRef.current.value, {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'}
+                });
 
-            if (!response.ok) {
-                showError("后端/api/products POST访问出错，请联系管理员");
-                return;
+                if (!response.ok) {
+                    showError("后端/api/products/byTitle/ GET访问出错，请联系管理员");
+                    return;
+                }
+                const data = await response.json();
+                setProductList(data);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
             }
-            const data = await response.json();
-            // console.log("响应：");
-            // console.log(data);
-            setProductList(data);
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
         }
     };
 
@@ -281,10 +281,8 @@ const Home: React.FC = () => {
         //未登录不处理likes表,登陆后去除首页自己的商品
         if(userId){
             fetchLikes().then();
-            fetchProductsLongin().then();
-        }else{
-            fetchProducts().then();
         }
+        fetchProducts().then();
     }, [userId]);
 
     return (
@@ -308,9 +306,16 @@ const Home: React.FC = () => {
                 {/*商品列表*/}
                 {/*轶闻趣事/遇到的问题：访问后端获取数据的时候likedProductIdList.includes(item.productId)打印是true，但是到了map遍历，一直false*/}
                 <div id={'productList'}>
-                    {productList.map((item,index) => (
-                        <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} data={item} />
-                    ))}
+                    {productList.map((item,index) => {
+                        if(!userId){
+                            return <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} data={item}/>
+                        }
+                        else{
+                            if(item.seller.userId != userId){
+                                return <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} data={item}/>
+                            }
+                        }
+                    })}
                 </div>
             </div>
         </>

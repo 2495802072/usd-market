@@ -33,7 +33,7 @@ interface IProductItem {
 
 const ProductItem: React.FC<IProductItem> = ({data,liked}) => {
     const [isLiked, setIsLiked] = useState(liked);
-    const userId = Cookies.get("token");
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
     const {showError} = useError();
     const navigate = useNavigate();
 

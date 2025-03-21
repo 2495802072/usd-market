@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useError} from "../components/ErrorContext.tsx";
 import {useAuth} from "../authentication/AuthContext.tsx";
+import Cookies from "js-cookie";
 
 const titleLineStyle = {
     width: '100%',
@@ -19,12 +20,29 @@ const titleLineStyle = {
 }
 
 interface StorageItemType {
-    productId: number;
-    imgUrl: string;
-    title: string;
-    description: string;
-    price: number;
-    category: string;
+    productId: number,
+    imgUrl: string,
+    seller: {
+        userId: number,
+        username: string,
+        email: string,
+        phone: string,
+        role: string,
+        avatarUrl: string
+    },
+    category: {
+        categoryId: number,
+        name: string,
+        description: string,
+        createdAt: string,
+        updatedAt: string
+    },
+    title: string,
+    description: string,
+    price: number,
+    status: string,
+    createdAt: string,
+    updatedAt: string
 }
 
 const Storage = () =>{
@@ -41,7 +59,6 @@ const Storage = () =>{
 
     const [storageList, setStorageList] = useState<StorageItemType[]>([]);
     const { showError } = useError();
-    const loginState = useAuth();
 
     const openPop = () => {
         setPTitle("添加商品");
@@ -49,7 +66,7 @@ const Storage = () =>{
         setIsPopOpen(true);
     };
 
-    const setEdit = (s_id: number ,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) =>{
+    const setEdit = (s_id: number ,s_url: string,s_title: string,s_des: string,s_price: number,s_type: number) =>{
         setProductId(s_id);
         setPTitle("编辑商品");
         setImageUrl(s_url);
@@ -78,24 +95,21 @@ const Storage = () =>{
                 body: JSON.stringify({userId})
             });
             if (!response.ok) {
-                showError("后端/api/products访问出错，请联系管理员");
+                // showError("后端/api/products访问出错，请联系管理员");
+                showError(await response.text());
+                return;
             }
             const data = await response.json();
-            // console.log("响应：");
-            // console.log(data);
             setStorageList(data);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
     };
 
-    const userId = loginState.state.user?.userId;
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
     //userId变化更新storageList
     useEffect(() => {
-        if(userId){
-            console.log('userId ', userId);
-            fetchProducts().then();
-        }
+        fetchProducts().then();
     }, [userId]);
 
     useEffect(() => {
@@ -130,7 +144,7 @@ const Storage = () =>{
                 {useAuth().state.isAuthenticated ?
                     <>
                         {storageList.map((item,index) => (
-                            <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.description} price={item.price} type={item.category} edit={setEdit} />
+                            <StorageItem key={index} imageUrl={item.imgUrl} proId={item.productId} title={item.title} info={item.description} price={item.price} type={item.category.categoryId} edit={setEdit} />
                         ))}
                     </>
 

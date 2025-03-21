@@ -51,7 +51,7 @@ const OrderList: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const userId = Cookies.get("token");
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
 
     const fetchOrders = async () => {
         try {

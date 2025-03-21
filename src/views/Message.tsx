@@ -22,7 +22,7 @@ interface ContactType  {
 
 const MessagePage = () => {
     const { showError } = useError();
-    const [userId, _setUserId] = React.useState(Cookies.get('token'));
+    const [userId] = React.useState(Cookies.get('token'));
     const [contactList, setContactList] = React.useState<ContactType[]>([]);
     const [receiveId, setReceiveId] = React.useState(-1);
 

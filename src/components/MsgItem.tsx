@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Cookies from "js-cookie";
 
 interface MsgItemProps {
@@ -37,7 +37,7 @@ const dateStyle = {
 }
 
 const MsgItem:React.FC<MsgItemProps> = ({data}) => {
-    const userId = Cookies.get("token"); // userId 是 string | undefined
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
     const flag: boolean = userId !== undefined && data.sender.userId.toString() === userId;
 
     function formatDate(dateString:string) {

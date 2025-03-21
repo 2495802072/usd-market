@@ -31,7 +31,7 @@ interface messageType {
 }
 
 const CommunicateBox:React.FC<communicateBoxType> = ({receiveId}) => {
-    const userId = Cookies.get("token");
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
     const { showError } = useError();
     const [messageList, setMessageList] = useState<messageType[]>([]);
     const [content, setContent] = useState("");

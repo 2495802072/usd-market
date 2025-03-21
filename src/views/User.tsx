@@ -12,7 +12,7 @@ const User: React.FC = () => {
     const [openPassword, setOpenPassword] = React.useState(false);
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-    const [userId, _setUserId] = React.useState(Cookies.get('token'));
+    const [userId] = React.useState(Cookies.get('token'));
     const [username, setUsername] = React.useState(loginState.state.user?.username || '');
     const [password, setPassword] = React.useState('');
     const [email, setEmail] = React.useState(loginState.state.user?.email || '');

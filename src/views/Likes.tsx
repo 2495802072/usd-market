@@ -40,12 +40,11 @@ interface LikesItemType {
     }
 }
 
-const userId = Cookies.get("token");
-
 const Likes = () => {
     const { showError } = useError();
     const [likedProductList, setLikedProductList] = useState<LikesItemType[]>([]);
     const navigate = useNavigate();
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
     const toLogin = () =>{
         navigate('/login');
     }
@@ -72,9 +71,7 @@ const Likes = () => {
     };
 
     useEffect(() => {
-        if(userId){
-            fetchLikes().then();
-        }
+        fetchLikes().then();
     }, [userId]);
 
     useEffect(() => {

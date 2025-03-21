@@ -10,12 +10,12 @@ interface StorageItemProps {
     info?: string,
     price?: number,
     key?: number,
-    type?: string,
-    edit: (s_id: number,s_url: string,s_title: string,s_des: string,s_price: number,s_type: string) => void
+    type?: number,
+    edit: (s_id: number,s_url: string,s_title: string,s_des: string,s_price: number,s_type: number) => void
 }
 
 // Eslint一直给key={index}的写法报错没有key参数, _key的作用就是绕过Eslint的检测（实在不想动Eslint）
-const StorageItem: React.FC<StorageItemProps> = ({imageUrl = "", title = "未命名", info = "缺少简介", price = 0.00,type='请选择',
+const StorageItem: React.FC<StorageItemProps> = ({imageUrl = "", title = "未命名", info = "缺少简介", price = 0.00,type= 0,
                                                      _key =-1,edit,proId
                                                  }) => {
 

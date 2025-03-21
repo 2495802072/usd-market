@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {useAuth} from "../authentication/AuthContext.tsx";
 import {useError} from "./ErrorContext.tsx";
+import Cookies from "js-cookie";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface ProductModalProps {
@@ -32,7 +32,6 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
                                                  description='',setDescription = ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  price=0,setPrice = ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  type= 0,setType = ()=>{console.log('StoragePop参数set方法传输失败')}}) => {
-    const loginState = useAuth();
     const { showError } = useError();
 
 
@@ -40,7 +39,7 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
 
     const handleSubmit = async () => {
         // Handle form submission logic
-        const userId = loginState.state.user?.userId;
+        const [userId] = useState<string | undefined>(Cookies.get("token"));
         if (!userId){
             showError("登录用户id获取失败");
             return;

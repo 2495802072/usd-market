@@ -1,24 +1,35 @@
 import './css/TopBar.css';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../authentication/AuthContext.tsx";
 import Cookies from "js-cookie";
 
 
+
 const TopBar: React.FC = () =>{
     const loginState = useAuth();
     const navigate = useNavigate();
+    const { dispatch } = useAuth();
     const toLogin = () =>{
         navigate('/login');
     }
 
+    const [username, setUsername] = useState("");
+
     const loginOut = () => {
         Cookies.remove('token');
         console.log("用户登出");
+        dispatch({
+            type: 'LOGOUT'
+        });
         //刷新页面
         // window.location.reload();
         toLogin();
     }
+
+    useEffect(() => {
+        setUsername( loginState.state.user ? loginState.state.user.username : "未登录")
+    }, []);
 
     return (
         <>
@@ -29,7 +40,7 @@ const TopBar: React.FC = () =>{
                 <div className="dropdown" style={{width: '150px'}}>
                     <a className="dropdown-toggle" data-bs-toggle={loginState.state.isAuthenticated ? "dropdown" : null}
                        href={"#"} role="button" onClick={loginState.state.isAuthenticated ? () => {} : toLogin}
-                       aria-expanded="false">{loginState.state.user ? loginState.state.user.username : "未登录"}</a>
+                       aria-expanded="false">{username}</a>
                     <ul className="dropdown-menu">
                         <li><a className="dropdown-item" href="#">用户设置</a></li>
                         <li><a className="dropdown-item" href="#">状态：在线</a></li>
