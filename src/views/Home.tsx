@@ -5,8 +5,6 @@ import TopBar from "../components/TopBar.tsx";
 import {useError} from "../components/ErrorContext.tsx";
 import Cookies from "js-cookie";
 
-// TODO 搜索历史,保留10个
-const searchHistory: string[] = ["123", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd", "asd"]
 
 interface ProductItemType {
     productId: number,
@@ -37,12 +35,26 @@ interface LikesItemType {
     };
 }
 
+const getSearchHistory = (): string[] => {
+    const history = localStorage.getItem('searchHistory');
+    return history ? JSON.parse(history) : [];
+};
+
+const addSearchHistory = (item: string) => {
+    const history = getSearchHistory();
+    // 保留最近的10个搜索历史
+    const newHistory = [item, ...history].slice(0, 10);
+    localStorage.setItem('searchHistory', JSON.stringify(newHistory));
+};
 
 
+const SearchHistoryComponent: React.FC<{ history: string[], onSelect: (item: string) => void, clearHistory: () => void }> = ({history, onSelect, clearHistory}) => {
+    const HandleClear = () =>{
+        clearHistory();
+    }
 
-const SearchHistoryComponent: React.FC<{ history: string[], onSelect: (item: string) => void }> = ({history, onSelect}) => {
     return (
-        <div id='searchingHistory' className='text-truncate' style={{backgroundColor: 'var(--shop-background-color)'}}>
+        <div id='searchingHistory' className='text-truncate d-flex position-relative' style={{backgroundColor: 'var(--shop-background-color)'}}>
             <table>
                 <tbody>
                 <tr>
@@ -52,34 +64,46 @@ const SearchHistoryComponent: React.FC<{ history: string[], onSelect: (item: str
                             <a onClick={() => onSelect(item)} style={{cursor: 'pointer'}}>{item}</a>
                         </td>
                     ))}
+
                 </tr>
                 </tbody>
             </table>
+            <div className={"position-absolute"} style={{right: 0}}>
+                <button className={"btn-gold btn"} onClick={HandleClear}>X</button>
+            </div>
         </div>
     );
 };
 
-const SearchBox: React.FC<{ searchingBoxRef: React.RefObject<HTMLInputElement> }> = ({searchingBoxRef}) => (
-    <div id='searching'>
-        {/*<div className={'image-container'} style={{ position: 'absolute', width: '150%',left: '-25%'}}>*/}
-        {/*    <img src={bg} alt={"背景"} />*/}
-        {/*</div>*/}
-        <div className="input-group mb-1">
-            <span className="input-group-text">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                     fill="none" stroke="#F79E90" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                     className="icon icon-tabler icons-tabler-outline icon-tabler-search">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
-                    <path d="M21 21l-6 -6"/>
-                </svg>
-            </span>
-            <input id={'searchingBox'} ref={searchingBoxRef} type="text" className={"form-control"}
-                   aria-label="Amount (to the nearest searching)"/>
-            <button className="btn btn-gold" type="button">搜索</button>
+const SearchBox: React.FC<{ searchingBoxRef: React.RefObject<HTMLInputElement>, onSearch: (query: string) => void }> = ({searchingBoxRef, onSearch}) => {
+    const handleSearch = () => {
+        if (searchingBoxRef.current) {
+            const query = searchingBoxRef.current.value.trim();
+            if (query) {
+                onSearch(query);
+            }
+        }
+    };
+
+    return (
+        <div id='searching'>
+            <div className="input-group mb-1">
+                <span className="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="#F79E90" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                         className="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
+                        <path d="M21 21l-6 -6"/>
+                    </svg>
+                </span>
+                <input id={'searchingBox'} ref={searchingBoxRef} type="text" className={"form-control"}
+                       aria-label="Amount (to the nearest searching)"/>
+                <button className="btn btn-gold" type="button" onClick={handleSearch}>搜索</button>
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const Classification: React.FC = () => (
     <div id={'classification'} >
@@ -163,6 +187,18 @@ const Home: React.FC = () => {
     const { showError } = useError();
     const [productList,setProductList] = useState<ProductItemType[]>([]);
     const [likedProductIdList,setLikedProductIdList] = useState<number[]>([]);
+    const [searchHistory, setSearchHistory] = useState<string[]>(getSearchHistory());
+
+    const handleSearch = (query: string) => {
+        addSearchHistory(query);
+        setSearchHistory(getSearchHistory());
+        // TODO 添加实际的搜索逻辑
+    };
+
+    const clearSearchHistory = () => {
+        localStorage.removeItem('searchHistory');
+        setSearchHistory([]);
+    };
 
     const handleSelectHistoryItem = (item: string) => {
         if (searchingBoxRef.current) {
@@ -256,9 +292,9 @@ const Home: React.FC = () => {
             <TopBar/>
             <div className="head-box-home">
                 <div className='searching-box-home'>
-                    <SearchBox searchingBoxRef={searchingBoxRef}/>
+                    <SearchBox searchingBoxRef={searchingBoxRef} onSearch={handleSearch}/>
                     {searchHistory.length > 0 &&
-                        <SearchHistoryComponent history={searchHistory} onSelect={handleSelectHistoryItem}/>}
+                        <SearchHistoryComponent history={searchHistory} onSelect={handleSelectHistoryItem} clearHistory={clearSearchHistory}/>}
                 </div>
                 <LittleCard/>
             </div>
