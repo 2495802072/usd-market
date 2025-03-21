@@ -189,9 +189,9 @@ const Navs: React.FC = () => {
                 </NavLink>
 
                 {/*管理员NAV*/}
-                {Cookies.get("token") == 0 && <label style = {{fontSize:'12px'}}>---------管理层---------</label>}
+                {Cookies.get("token")?.toString() == '0' && <label style = {{fontSize:'12px'}}>---------管理层---------</label>}
                 {/*商品类别*/}
-                {(Cookies.get("token") == 0) &&
+                {(Cookies.get("token")?.toString() == '0') &&
                     <NavLink to="/type" className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
                         {({isActive}) => {
                             return (
@@ -213,7 +213,7 @@ const Navs: React.FC = () => {
                     </NavLink>
                 }
                 {/*用户列表*/}
-                {(Cookies.get("token") == 0) &&
+                {(Cookies.get("token")?.toString() == '0') &&
                     <NavLink to="/usermanager"
                              className={({isActive}) => (isActive ? 'active-link nav-link' : 'nav-link')}>
                     {({isActive}) => {

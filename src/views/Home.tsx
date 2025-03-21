@@ -231,21 +231,23 @@ const Home: React.FC = () => {
     };
 
     const searchProducts = async () => {
-        if ("value" in searchingBoxRef.current){
-            try {
-                const response = await fetch(apiUrl+'/api/products/byTitle/' + searchingBoxRef.current.value, {
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'}
-                });
+        if(searchingBoxRef.current) {
+            if ("value" in searchingBoxRef.current) {
+                try {
+                    const response = await fetch(apiUrl + '/api/products/byTitle/' + searchingBoxRef.current.value, {
+                        method: 'GET',
+                        headers: {'Content-Type': 'application/json'}
+                    });
 
-                if (!response.ok) {
-                    showError("后端/api/products/byTitle/ GET访问出错，请联系管理员");
-                    return;
+                    if (!response.ok) {
+                        showError("后端/api/products/byTitle/ GET访问出错，请联系管理员");
+                        return;
+                    }
+                    const data = await response.json();
+                    setProductList(data);
+                } catch (error) {
+                    console.error('There was a problem with the fetch operation:', error);
                 }
-                const data = await response.json();
-                setProductList(data);
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
             }
         }
     };
@@ -311,7 +313,7 @@ const Home: React.FC = () => {
                             return <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} data={item}/>
                         }
                         else{
-                            if(item.seller.userId != userId){
+                            if(item.seller.userId.toString() != userId){
                                 return <ProductItem liked={likedProductIdList.includes(item.productId)} key={index} data={item}/>
                             }
                         }
