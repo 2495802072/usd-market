@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useError} from "./ErrorContext.tsx";
 import Cookies from "js-cookie";
+import user from "../views/User.tsx";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface ProductModalProps {
@@ -33,13 +34,36 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
                                                  price=0,setPrice = ()=>{console.log('StoragePop参数set方法传输失败')},
                                                  type= 0,setType = ()=>{console.log('StoragePop参数set方法传输失败')}}) => {
     const { showError } = useError();
+    const [typeList,setTypeList] = useState<TypeInter[]>([]);
+    const [userId] = useState<string | undefined>(Cookies.get("token"));
 
+    useEffect(() => {
+        // 获取类型列表
+        const getProductsTypes = async () => {
+            try {
+                const response = await fetch(apiUrl+'/api/categories', {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'}
+                });
+
+                if (!response.ok) {
+                    showError("后端/api/categories GET访问出错，请联系管理员");
+                    return;
+                }
+                const types = await response.json();
+                setTypeList(types);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        };
+        getProductsTypes().then();
+    }, []);
 
     // TODO 图片上传存储逻辑
 
+
     const handleSubmit = async () => {
         // Handle form submission logic
-        const [userId] = useState<string | undefined>(Cookies.get("token"));
         if (!userId){
             showError("登录用户id获取失败");
             return;
@@ -47,11 +71,11 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
         // 构建请求体
         const requestBody = {
             productId: proId,
-            seller: { userId },
-            title,
-            description,
-            price,
-            category: {categoryId : type},
+            seller: { userId:userId },
+            title:title,
+            description:description,
+            price:price,
+            category: {categoryId: type},
             status: '在售',
         };
 
@@ -82,30 +106,11 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
         return null;
     }
 
-    const [typeList,setTypeList] = useState<TypeInter[]>([]);
-    // 获取类型列表
-    const getProductsTypes = async () => {
-        try {
-            const response = await fetch(apiUrl+'/api/categories', {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'}
-            });
-
-            if (!response.ok) {
-                showError("后端/api/categories GET访问出错，请联系管理员");
-                return;
-            }
-            const types = await response.json();
-            setTypeList(types);
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-        }
-    };
 
 
-    useEffect(() => {
-        getProductsTypes().then();
-    }, []);
+
+
+
 
     return (
         // 黑色半透明幕布弹窗，仅自身触发onClick

@@ -29,7 +29,7 @@ const TopBar: React.FC = () =>{
 
     useEffect(() => {
         setUsername( loginState.state.user ? loginState.state.user.username : "未登录")
-    }, []);
+    }, [loginState]);
 
     return (
         <>
