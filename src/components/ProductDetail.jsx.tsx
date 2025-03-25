@@ -1,74 +1,130 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Badge, ListGroup, Spinner, Alert, Image, Button } from 'react-bootstrap';
 import TopBar from "./TopBar.tsx";
-import {useError} from "./ErrorContext.tsx";
+import { useError } from "./ErrorContext.tsx";
 import Cookies from "js-cookie";
+
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-const ProductDetail = () => {
-    const { productId } = useParams();
-    const [product, setProduct] = useState(null);
-    const [reviews, setReviews] = useState([]);
+interface ReviewsType {
+    reviewId: number;
+    product: {
+        productId: number;
+    };
+    user: {
+        userId: number;
+        username: string;
+    };
+    rating: number;
+    comment: string;
+    createdAt: string;
+}
+
+interface ProductItemType {
+    productId: number;
+    seller: {
+        university: {
+            universityId: number;
+            universityName: string;
+        };
+        avatarUrl: string;
+        userId: number;
+        username: string;
+        email: string;
+        phone: string;
+        role: null;
+    };
+    title: string;
+    description: string;
+    price: number;
+    category: {
+        name: string;
+    };
+    status: string;
+    imageUrl: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+const ProductDetail: React.FC = () => {
+    const { productId } = useParams<{ productId: string }>();
+    const [product, setProduct] = useState<ProductItemType | null>(null);
+    const [reviews, setReviews] = useState<ReviewsType[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string>(null);
+    const [error, setError] = useState<string | null>(null);
     const { showError } = useError();
     const navigate = useNavigate();
 
-    const toUserDetail = () =>{
-        navigate(`/users/${product.seller.userId}`);
-    }
+    const toUserDetail = () => {
+        if (product?.seller?.userId) {
+            navigate(`/users/${product.seller.userId}`);
+        }
+    };
 
-    const addContacts = async () =>{
+    const addContacts = async () => {
+        if (!product?.seller?.userId) return;
+
         try {
-            const response = await fetch(apiUrl+'/api/contact',{
+            const token = Cookies.get('token');
+            if (!token) {
+                showError('请先登录');
+                return;
+            }
+
+            const response = await fetch(apiUrl + '/api/contact', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    user: {userId: Cookies.get('token')},
-                    recipient: {userId: product.seller.userId}
+                    user: { userId: token },
+                    recipient: { userId: product.seller.userId }
                 })
-            })
-            //出错显示错误信息
-            if(!response.ok){
+            });
+
+            // 出错显示错误信息
+            if (!response.ok) {
                 showError(await response.text());
+                return;
             }
             navigate('/message');
 
         } catch (error) {
-            showError('（开发） fetch 后端数据出错')
+            showError('（开发） fetch 后端数据出错');
             console.error('There was a problem with the fetch operation:', error);
         }
-    }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 // 获取商品信息
                 const productResponse = await fetch(apiUrl + `/api/products/${productId}`);
                 if (!productResponse.ok) {
                     showError('商品信息获取失败');
                 }
-                const productData = await productResponse.json();
+                const productData: ProductItemType = await productResponse.json();
 
                 // 获取评论信息
                 const reviewsResponse = await fetch(apiUrl + `/api/review/product/${productId}`);
                 if (!reviewsResponse.ok) {
                     showError('评论信息获取失败');
                 }
-                const reviewsData = await reviewsResponse.json();
+                const reviewsData: ReviewsType[] = await reviewsResponse.json();
 
                 setProduct(productData);
                 setReviews(reviewsData);
-                setLoading(false);
-            } catch (err) {
-                setError(err.message);
+            } catch (err: unknown) {
+                const errorMessage = err instanceof Error ? err.message : '未知错误';
+                setError(errorMessage);
+                showError(errorMessage);
+            } finally {
                 setLoading(false);
             }
         };
 
-        fetchData().then();
-    }, [productId]);
+        fetchData();
+    }, [productId, showError]);
 
     if (loading) {
         return (
@@ -101,7 +157,7 @@ const ProductDetail = () => {
     }
 
     // 渲染评分星星
-    const renderRatingStars = (rating) => {
+    const renderRatingStars = (rating: number) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
             stars.push(
@@ -115,16 +171,15 @@ const ProductDetail = () => {
     };
 
     return (
-
         <Container className="my-5">
-            <TopBar text={"商品详情"}/>
+            <TopBar text={"商品详情"} />
             <Row>
                 {/* 商品图片区域 */}
                 <Col md={6}>
                     <Card className="mb-4">
                         <Card.Body className="text-center">
                             <Image
-                                src="https://via.placeholder.com/400x400"
+                                src={product.imageUrl || "https://via.placeholder.com/400x400"}
                                 alt={product.title}
                                 fluid
                                 className="rounded"
@@ -151,7 +206,7 @@ const ProductDetail = () => {
                                 <p className="text-muted">{product.description}</p>
                             </div>
 
-                            <div className="mb-4" onClick={toUserDetail}>
+                            <div className="mb-4" onClick={toUserDetail} style={{ cursor: 'pointer' }}>
                                 <h5>卖家信息</h5>
                                 <div className="d-flex align-items-center">
                                     <Image
@@ -163,7 +218,7 @@ const ProductDetail = () => {
                                     />
                                     <div>
                                         <p className="mb-0 fw-bold">{product.seller.username}</p>
-                                        <p className="mb-0 text-muted small">{product.seller.university || '未知学校'}</p>
+                                        <p className="mb-0 text-muted small">{product.seller.university?.universityName || '未知学校'}</p>
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +252,8 @@ const ProductDetail = () => {
                                                 <div>
                                                     <span className="fw-bold me-2">{review.user.username}</span>
                                                     <span className="text-warning">
-                            {renderRatingStars(review.rating)}
-                          </span>
+                                                        {renderRatingStars(review.rating)}
+                                                    </span>
                                                 </div>
                                                 <small className="text-muted">
                                                     {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : '未知时间'}

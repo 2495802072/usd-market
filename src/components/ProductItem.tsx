@@ -20,7 +20,9 @@ interface IProductItem {
         title: string,
         description: string,
         price: number,
-        category: string,
+        category:{
+            name: string,
+        },
         status: string,
         imageUrl: string,
         createdAt: string,

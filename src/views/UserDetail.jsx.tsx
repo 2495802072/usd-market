@@ -1,56 +1,106 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
-import {Container, Row, Col, Card, Spinner, Alert, Image, Tab, Tabs, Badge, ListGroup} from 'react-bootstrap';
-import {useError} from "../components/ErrorContext.tsx";
+import { useNavigate, useParams } from 'react-router-dom';
+import { Container, Row, Col, Card, Spinner, Alert, Image, Tab, Tabs, Badge, ListGroup } from 'react-bootstrap';
+import { useError } from "../components/ErrorContext.tsx";
+
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-const UserDetail:React.FC = () => {
-    const {userId} = useParams();
+// 商品项类型
+interface ProductItemType {
+    productId: number;
+    seller: {
+        userId: number;
+        username: string;
+        email: string;
+        phone: string;
+        role: null;
+    };
+    title: string;
+    description: string;
+    price: number;
+    category: {
+        name: string;  // 修正：category应该是对象，包含name属性
+    };
+    status: string;
+    imageUrl: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+// 用户类型
+interface UserType {
+    userId: number;
+    username: string;
+    email: string;
+    phone: string;
+    role: 'admin' | 'user';
+    avatarUrl?: string;
+    university?: {
+        universityName: string;
+        location: string;
+    };
+    major?: {
+        majorName: string;
+        department: string;
+    };
+    createdAt: string;
+}
+
+// 按状态分类的商品字典类型
+interface ProductsByStatus {
+    [status: string]: ProductItemType[];
+}
+
+const UserDetail: React.FC = () => {
+    const { userId } = useParams<{ userId: string }>();  // 明确params类型
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-    const [products, setProducts] = useState([]);
+    const [user, setUser] = useState<UserType | null>(null);  // 明确user类型
+    const [products, setProducts] = useState<ProductItemType[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);  // 明确error类型
     const { showError } = useError();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // 获取用户信息
-                const userResponse = await fetch(apiUrl + `/api/users/${userId}`);
+                const userResponse = await fetch(`${apiUrl}/api/users/${userId}`);
                 if (!userResponse.ok) {
                     showError('用户信息获取失败');
+                    return;
                 }
-                const userData = await userResponse.json();
+                const userData: UserType = await userResponse.json();
 
                 // 获取用户商品
-                const productsResponse = await fetch(apiUrl + '/api/products/bySeller', {
+                const productsResponse = await fetch(`${apiUrl}/api/products/bySeller`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ userId: parseInt(typeof userId === "string" ? userId : '0') })
+                    body: JSON.stringify({ userId: parseInt(userId || '0') })
                 });
 
                 if (!productsResponse.ok) {
                     showError('商品信息获取失败');
+                    return;
                 }
-                const productsData = await productsResponse.json();
+                const productsData: ProductItemType[] = await productsResponse.json();
 
                 setUser(userData);
                 setProducts(productsData);
                 setLoading(false);
-            } catch (err) {
-                setError(err.message);
+            } catch (err: unknown) {  // 捕获错误时明确类型
+                const errorMessage = err instanceof Error ? err.message : '未知错误';
+                setError(errorMessage);
                 setLoading(false);
             }
         };
 
-        fetchData().then();
-    }, [userId]);
+        fetchData();
+    }, [userId, showError]);
 
-    // 按状态分类商品
-    const productsByStatus = products.reduce((acc, product) => {
+    // 按状态分类商品 字典
+    const productsByStatus: ProductsByStatus = products.reduce((acc: ProductsByStatus, product) => {
         if (!acc[product.status]) {
             acc[product.status] = [];
         }
@@ -88,7 +138,7 @@ const UserDetail:React.FC = () => {
         );
     }
 
-    const navigateToProduct = (productId) => {
+    const navigateToProduct = (productId: number) => {  // 明确参数类型
         navigate(`/products/${productId}`);
     };
 
@@ -141,7 +191,8 @@ const UserDetail:React.FC = () => {
                                                 <Col sm={4} className="text-muted">专业</Col>
                                                 <Col sm={8}>
                                                     {user.major.majorName}
-                                                    <small className="text-muted d-block">{user.major.department}</small>
+                                                    <small
+                                                        className="text-muted d-block">{user.major.department}</small>
                                                 </Col>
                                             </Row>
                                         )}
@@ -177,8 +228,8 @@ const UserDetail:React.FC = () => {
                             {Object.entries(productsByStatus).map(([status, products]) => (
                                 <Tab key={status} eventKey={status} title={
                                     <span>
-                    {status} <Badge bg="secondary">{products.length}</Badge>
-                  </span>
+                                        {status} <Badge bg="secondary">{products.length}</Badge>
+                                    </span>
                                 }>
                                     <ListGroup variant="flush">
                                         {products.map((product) => (

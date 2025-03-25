@@ -1,17 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import TopBar from "../components/TopBar.tsx";
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
+interface TransactionType {
+    transactionId: number,
+    "product": {
+        "productId": number,
+        "seller": {
+            "userId": number,
+            "username": string,
+            "email": string,
+            "phone": string,
+            "avatarUrl": string,
+            "role": string
+        },
+        "category": {
+            "categoryId": number,
+            "name": string,
+            "description": string,
+            "parentId": number
+        },
+        "title": string,
+        "description": string,
+        "price": number,
+        "status": string
+    },
+    "buyer": {
+        "userId": number,
+        "username": string,
+        "email": string,
+        "phone": string,
+        "avatarUrl": string,
+        "role": string
+    },
+    "seller": {
+        "userId": number,
+        "username": string,
+        "email": string,
+        "phone": string,
+        "avatarUrl": string,
+        "role": string,
+    },
+    "status": string,
+    "address": string,
+    "note": string,
+    "createdAt": string,
+    "updatedAt": string
+}
+
 const TransactionManager = () => {
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState<TransactionType[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [currentTransaction, setCurrentTransaction] = useState({
-        transactionId: null,
+        transactionId: -1,
         status: '',
         address: '',
         note: '',
+        createAt: ''
     });
     const [isAdmin, setIsAdmin] = useState(false); // 是否是管理员
     const [userId, setUserId] = useState(""); // 当前用户ID
@@ -47,12 +94,13 @@ const TransactionManager = () => {
     };
 
     // 编辑订单
-    const handleEditTransaction = (transaction) => {
+    const handleEditTransaction = (transaction:TransactionType) => {
         setCurrentTransaction({
             transactionId: transaction.transactionId,
             status: transaction.status,
             address: transaction.address,
             note: transaction.note,
+            createAt: transaction.createdAt
         });
         setShowModal(true);
     };
@@ -60,14 +108,14 @@ const TransactionManager = () => {
     // 保存编辑
     const handleSaveTransaction = async () => {
         const response = await fetch(apiUrl + `/api/transactions/${currentTransaction.transactionId}`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 status: currentTransaction.status,
                 address: currentTransaction.address,
-                note: currentTransaction.note,
+                note: currentTransaction.note
             }),
         });
 
@@ -78,7 +126,7 @@ const TransactionManager = () => {
     };
 
     // 删除订单
-    const handleDeleteTransaction = async (transactionId) => {
+    const handleDeleteTransaction = async (transactionId:number) => {
         const response = await fetch(apiUrl + `/api/transactions/${transactionId}`, {
             method: 'DELETE',
         });
