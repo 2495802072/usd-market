@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import TopBar from "../components/TopBar.tsx";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const TransactionManager = () => {
     const [transactions, setTransactions] = useState([]);
@@ -28,9 +29,9 @@ const TransactionManager = () => {
 
     // 获取所有订单（管理员）或当前用户的订单（普通用户）
     const fetchTransactions = async () => {
-        let url = 'http://localhost:8280/api/transactions';
+        let url = apiUrl + '/api/transactions';
         if (!isAdmin) {
-            url = `http://localhost:8280/api/transactions/buyer/${userId}`;
+            url = apiUrl + `/api/transactions/buyer/${userId}`;
         }
         const response = await fetch(url);
         const data = await response.json();
@@ -40,7 +41,7 @@ const TransactionManager = () => {
     // 根据商品号查询订单（仅管理员）
     const handleSearchByProductId = async () => {
         if (!searchProductId) return;
-        const response = await fetch(`http://localhost:8280/api/transactions/byProduct/${searchProductId}`);
+        const response = await fetch(apiUrl + `/api/transactions/byProduct/${searchProductId}`);
         const data = await response.json();
         setTransactions(data);
     };
@@ -58,7 +59,7 @@ const TransactionManager = () => {
 
     // 保存编辑
     const handleSaveTransaction = async () => {
-        const response = await fetch(`http://localhost:8280/api/transactions/${currentTransaction.transactionId}`, {
+        const response = await fetch(apiUrl + `/api/transactions/${currentTransaction.transactionId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ const TransactionManager = () => {
 
     // 删除订单
     const handleDeleteTransaction = async (transactionId) => {
-        const response = await fetch(`http://localhost:8280/api/transactions/${transactionId}`, {
+        const response = await fetch(apiUrl + `/api/transactions/${transactionId}`, {
             method: 'DELETE',
         });
 

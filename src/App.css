@@ -54,6 +54,26 @@ table.testTable{
     border: 1px solid var(--shop-border-color);
 }
 
+/* 用户详情页自定义样式 */
+.user-avatar {
+    object-fit: cover;
+}
+
+.product-item:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    border-bottom: 3px solid #0d6efd;
+}
+
+.badge-price {
+    min-width: 80px;
+    text-align: center;
+}
+
 
 @media (max-width: 993px) {
     #root {

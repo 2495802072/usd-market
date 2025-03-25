@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { Container, Row, Col, Card, Badge, ListGroup, Spinner, Alert, Image, Button } from 'react-bootstrap';
 import TopBar from "./TopBar.tsx";
 import {useError} from "./ErrorContext.tsx";
+import Cookies from "js-cookie";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ProductDetail = () => {
     const { productId } = useParams();
@@ -11,19 +13,46 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string>(null);
     const { showError } = useError();
+    const navigate = useNavigate();
+
+    const toUserDetail = () =>{
+        navigate(`/users/${product.seller.userId}`);
+    }
+
+    const addContacts = async () =>{
+        try {
+            const response = await fetch(apiUrl+'/api/contact',{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user: {userId: Cookies.get('token')},
+                    recipient: {userId: product.seller.userId}
+                })
+            })
+            //出错显示错误信息
+            if(!response.ok){
+                showError(await response.text());
+            }
+            navigate('/message');
+
+        } catch (error) {
+            showError('（开发） fetch 后端数据出错')
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // 获取商品信息
-                const productResponse = await fetch(`http://localhost:8280/api/products/${productId}`);
+                const productResponse = await fetch(apiUrl + `/api/products/${productId}`);
                 if (!productResponse.ok) {
                     showError('商品信息获取失败');
                 }
                 const productData = await productResponse.json();
 
                 // 获取评论信息
-                const reviewsResponse = await fetch(`http://localhost:8280/api/review/product/${productId}`);
+                const reviewsResponse = await fetch(apiUrl + `/api/review/product/${productId}`);
                 if (!reviewsResponse.ok) {
                     showError('评论信息获取失败');
                 }
@@ -122,7 +151,7 @@ const ProductDetail = () => {
                                 <p className="text-muted">{product.description}</p>
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-4" onClick={toUserDetail}>
                                 <h5>卖家信息</h5>
                                 <div className="d-flex align-items-center">
                                     <Image
@@ -139,7 +168,7 @@ const ProductDetail = () => {
                                 </div>
                             </div>
 
-                            <Button variant="primary" size="lg" className="w-100">
+                            <Button variant="primary" size="lg" className="w-100" onClick={addContacts}>
                                 联系卖家
                             </Button>
                         </Card.Body>

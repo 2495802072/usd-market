@@ -18,6 +18,7 @@ const TopBar: React.FC<TopBarProp> = ({text}) =>{
 
     const [username, setUsername] = useState("");
 
+
     const loginOut = () => {
         Cookies.remove('token');
         console.log("用户登出");
@@ -49,9 +50,10 @@ const TopBar: React.FC<TopBarProp> = ({text}) =>{
                         <path d="M17 7l-5 5l5 5"/>
                     </svg>
                 </a>
-                <div style={{flex:"2"}}>
-                    <label style={{fontWeight: "bold"}}>{text}</label>
-                </div>
+                    <div style={{flex:"2"}}>
+                        {/*面包屑导航*/}
+                        <label style={{fontWeight: "bold"}}>{text}</label>
+                    </div>
                 <div>
                     <input type={'text'} placeholder={'/全局搜索...'}/>
                 </div>

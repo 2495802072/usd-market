@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal } from 'react-bootstrap';
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const UserManager = () => {
     const [users, setUsers] = useState([]);
@@ -14,19 +15,19 @@ const UserManager = () => {
     const [searchUsername, setSearchUsername] = useState(''); // 新增：按用户名查询的状态
 
     useEffect(() => {
-        fetchUsers();
+        fetchUsers().then();
     }, []);
 
     // 获取所有用户
     const fetchUsers = async () => {
-        const response = await fetch('http://localhost:8280/api/users');
+        const response = await fetch(apiUrl + '/api/users');
         const data = await response.json();
         setUsers(data);
     };
 
     // 按用户名模糊查询
     const handleSearchByUsername = async () => {
-        const response = await fetch(`http://localhost:8280/api/users/byName/${searchUsername}`);
+        const response = await fetch(apiUrl + `/api/users/byName/${searchUsername}`);
         const data = await response.json();
         setUsers(data);
     };
@@ -35,8 +36,8 @@ const UserManager = () => {
     const handleAddOrUpdateUser = async () => {
         const method = currentUser.userId ? 'PUT' : 'POST';
         const url = currentUser.userId
-            ? `http://localhost:8280/api/users/${currentUser.userId}`
-            : 'http://localhost:8280/api/users';
+            ? apiUrl + `/api/users/${currentUser.userId}`
+            : apiUrl + '/api/users';
 
         const response = await fetch(url, {
             method,
@@ -59,7 +60,7 @@ const UserManager = () => {
 
     // 删除用户
     const handleDeleteUser = async (userId) => {
-        const response = await fetch(`http://localhost:8280/api/users/${userId}`, {
+        const response = await fetch(apiUrl + `/api/users/${userId}`, {
             method: 'DELETE',
         });
 

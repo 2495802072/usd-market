@@ -41,7 +41,7 @@ const CategoryOption: React.FC<CategoryModalProps> = ({category, level }) => {
     useEffect(() => {
         const fetchSubCategories = async () => {
             try {
-                const response = await fetch(`http://localhost:8280/api/categories/parent/${category.categoryId}`);
+                const response = await fetch(apiUrl + `/api/categories/parent/${category.categoryId}`);
                 const data = await response.json();
                 setSubCategories(data);
             } catch (error) {

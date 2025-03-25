@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 import TypeManager from "./views/TypeManager.tsx";
 import UserManager from "./views/UserManager.tsx";
 import ProductDetail from "./components/ProductDetail.jsx.tsx";
+import UserDetail from "./views/UserDetail.jsx.tsx";
 
 const App = () => {
     const { dispatch } = useAuth();
@@ -62,6 +63,7 @@ const App = () => {
                         <Route path="/type" element={<TypeManager/>}/>
                         <Route path="/usermanager" element={<UserManager/>}/>
                         <Route path="/products/:productId" element={<ProductDetail />} />
+                        <Route path="/users/:userId" element={<UserDetail />} />
 
                         <Route path="*" element={<NotFound/>}/>
                     </Routes>

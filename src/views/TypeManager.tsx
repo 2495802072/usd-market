@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal, Breadcrumb } from 'react-bootstrap';
 import {useError} from "../components/ErrorContext.tsx";
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface categoriesType {
     categoryId: number;
@@ -32,8 +33,8 @@ const CategoryManager = () => {
 
     const fetchCategories = async () => {
         const url = currentParent !== -1
-            ? `http://localhost:8280/api/categories/parent/${currentParent}`
-            : 'http://localhost:8280/api/categories/parent/-1';
+            ? apiUrl + `/api/categories/parent/${currentParent}`
+            : apiUrl + '/api/categories/parent/-1';
 
         try {
             const response = await fetch(url);
@@ -62,8 +63,8 @@ const CategoryManager = () => {
     const handleSaveCategory = async () => {
         const method = currentCategory.categoryId ? 'PUT' : 'POST';
         const url = currentCategory.categoryId
-            ? `http://localhost:8280/api/categories/${currentCategory.categoryId}`
-            : 'http://localhost:8280/api/categories';
+            ? apiUrl + `/api/categories/${currentCategory.categoryId}`
+            : apiUrl + '/api/categories';
 
         const response = await fetch(url, {
             method,
@@ -84,7 +85,7 @@ const CategoryManager = () => {
     };
 
     const handleDeleteCategory = async (categoryId: number) => {
-        const response = await fetch(`http://localhost:8280/api/categories/${categoryId}`, {
+        const response = await fetch(apiUrl + `/api/categories/${categoryId}`, {
             method: 'DELETE',
         });
 
