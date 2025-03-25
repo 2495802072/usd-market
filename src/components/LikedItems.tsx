@@ -1,15 +1,23 @@
 import "./css/TrolleyItem.css"
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 interface TrolleyItemProps {
     key: number,
     imageUrl?: string,
     title?: string,
     info?: string,
-    price?: number
+    price?: number,
+    productId: number
 }
 
-const LikedItems: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命名",info = "缺少简介",price=0}) => {
+const LikedItems: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命名",info = "缺少简介",price=0 , productId}) => {
+    const navigate = useNavigate();
+
+    function toDetail() {
+        navigate('/products/'+ productId);
+    }
+
     return (
         <>
             <div className="Trolley-Item">
@@ -33,7 +41,7 @@ const LikedItems: React.FC<TrolleyItemProps>  = ({imageUrl = "",title="未命名
                                 <path d="M14 12.3v8.7l7 -3v-8z"/>
                             </svg>
                         }
-                        <div className={'d-block item-info'} style={{textAlign: 'left', marginLeft: '1rem'}}>
+                        <div className={'d-block item-info'} style={{textAlign: 'left', marginLeft: '1rem', cursor: 'pointer'}} onClick={toDetail}>
                             <h3>{title}</h3>
                             <p>{info}</p>
                         </div>

@@ -5,6 +5,12 @@ import { createContext, useReducer, useContext, ReactNode, Dispatch } from 'reac
 
 // 定义用户和认证状态的类型
 interface User {
+    major: {
+        majorId: number
+    };
+    university: {
+        universityId: number
+    };
     userId: string;
     username: string;
     password: string;

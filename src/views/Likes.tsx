@@ -81,12 +81,12 @@ const Likes = () => {
 
     return (
         <>
-            <TopBar/>
+            <TopBar text={"收藏商品"}/>
             <div id={"TrolleyRoot"} className={"d-flex flex-column"}>
                 {useAuth().state.isAuthenticated ? <>
                         <div className="list-box d-flex flex-column ">
                             {likedProductList.map((item,index) => (
-                                <LikedItems key={index} title={item.product.title} info={item.product.description} price={item.product.price}/>
+                                <LikedItems key={index} title={item.product.title} info={item.product.description} price={item.product.price} productId={item.product.productId}/>
                             ))}
                         </div>
                     </>

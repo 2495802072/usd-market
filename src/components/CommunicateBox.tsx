@@ -106,7 +106,7 @@ const CommunicateBox:React.FC<communicateBoxType> = ({receiveId}) => {
     return (
         <>
             <div className={"w-100 h-100 communicate-main-box"}>
-                <div className={"d-flex flex-column"} style={{padding: "10px",flex:2}}>
+                <div className={"d-flex flex-column"} style={{padding: "10px",flex:2, overflowY: 'auto', maxHeight: '100%'}}>
                     {messageList.map((item,index) => (
                         <MsgItem data={item} key={index}/>
                     ))}

@@ -17,6 +17,7 @@ import {useAuth} from "./authentication/AuthContext.tsx";
 import Cookies from "js-cookie";
 import TypeManager from "./views/TypeManager.tsx";
 import UserManager from "./views/UserManager.tsx";
+import ProductDetail from "./components/ProductDetail.jsx.tsx";
 
 const App = () => {
     const { dispatch } = useAuth();
@@ -26,8 +27,6 @@ const App = () => {
     useEffect(() => {
         const storedToken = Cookies.get('token');
         if (storedToken) {
-            // 这里你可以调用一个API来获取用户信息并复原状态
-            // 假设有一个API可以通过token获取用户信息
             fetch(apiUrl+'/api/users/'+storedToken, {
                 method: 'GET',
                 headers: {
@@ -62,6 +61,7 @@ const App = () => {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/type" element={<TypeManager/>}/>
                         <Route path="/usermanager" element={<UserManager/>}/>
+                        <Route path="/products/:productId" element={<ProductDetail />} />
 
                         <Route path="*" element={<NotFound/>}/>
                     </Routes>

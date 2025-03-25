@@ -4,6 +4,7 @@ import ProductItem from "../components/ProductItem.tsx";
 import TopBar from "../components/TopBar.tsx";
 import {useError} from "../components/ErrorContext.tsx";
 import Cookies from "js-cookie";
+import {useNavigate} from "react-router-dom";
 
 
 interface ProductItemType {
@@ -122,6 +123,7 @@ const Classification: React.FC = () => (
 )
 
 const LittleCard: React.FC = () => {
+    const navigate = useNavigate();
 
     //判断是否是手机端，决定部分组件的显示与否
     const [isMobile, setIsMobile] = useState(false);
@@ -138,15 +140,25 @@ const LittleCard: React.FC = () => {
 
     }, []);//deps若存在，其改变时，才执行该函数
 
+    const toMessage = () => {
+        navigate('/message');
+    }
+    const toUser = () => {
+        navigate('/user');
+    }
+    const toTransaction = () => {
+        navigate('/orderList');
+    }
+
     return (
         <>
             <div className="vice-head-box-home flex-column" style={isMobile ? {display: 'none'} : {display: 'flex'}}>
-                <a id="little-card" className="d-flex justify-content-start align-items-center">
+                <a id="little-card" className="d-flex justify-content-start align-items-center" onClick={toUser}>
                     <img src="" alt=""/>
                     <div className="d-flex flex-column justify-content-center">小名片</div>
                 </a>
                 <div className="d-flex justify-content-around btn-group">
-                    <a className="btn btn-gold">
+                    <a className="btn btn-gold" onClick={toMessage}>
                         <svg xmlns="http://www.w3.org/2000/svg"
                              width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
@@ -159,7 +171,7 @@ const LittleCard: React.FC = () => {
                         </svg>
                         消息
                     </a>
-                    <a className="btn btn-gold">
+                    <a className="btn btn-gold" onClick={toTransaction}>
                         <svg xmlns="http://www.w3.org/2000/svg"
                              width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
@@ -289,7 +301,7 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <TopBar/>
+            <TopBar text={"首页"}/>
             <div className="head-box-home">
                 <div className='searching-box-home'>
                     <SearchBox searchingBoxRef={searchingBoxRef} onSearch={handleSearch}/>

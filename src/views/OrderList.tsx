@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal } from 'react-bootstrap';
 import Cookies from 'js-cookie';
+import TopBar from "../components/TopBar.tsx";
 
 const TransactionManager = () => {
     const [transactions, setTransactions] = useState([]);
@@ -88,6 +89,7 @@ const TransactionManager = () => {
 
     return (
         <div className="container mt-5">
+            <TopBar text={"订单详情"} />
             <h1>订单管理</h1>
 
             {/* 新增：根据商品号查询（仅管理员） */}

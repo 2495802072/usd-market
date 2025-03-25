@@ -56,7 +56,7 @@ const MessagePage = () => {
 
     return (
         <>
-            <TopBar />
+            <TopBar text={"消息"}/>
             <div className={"w-100 h-100 d-flex align-items-center"}>
                 {/*TODO 手机端卷起联系人栏*/}
                 <div className="message-contacts">

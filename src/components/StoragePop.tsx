@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useError} from "./ErrorContext.tsx";
 import Cookies from "js-cookie";
-import user from "../views/User.tsx";
+
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 interface ProductModalProps {
@@ -28,26 +28,89 @@ interface TypeInter {
     description: string
 }
 
-const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , listChange, proId, imageUrl = '', setImageUrl = ()=>{console.log('StoragePop参数set方法传输失败')},
-                                                 title='', setTitle= ()=>{console.log('StoragePop参数set方法传输失败')},
-                                                 description='',setDescription = ()=>{console.log('StoragePop参数set方法传输失败')},
-                                                 price=0,setPrice = ()=>{console.log('StoragePop参数set方法传输失败')},
-                                                 type= 0,setType = ()=>{console.log('StoragePop参数set方法传输失败')}}) => {
-    const { showError } = useError();
-    const [typeList,setTypeList] = useState<TypeInter[]>([]);
+interface CategoryModalProps {
+    key: number,
+    category: TypeInter,
+    level: number
+}
+
+
+const CategoryOption: React.FC<CategoryModalProps> = ({category, level }) => {
+    const [subCategories, setSubCategories] = useState<TypeInter[]>([]);
+
+    useEffect(() => {
+        const fetchSubCategories = async () => {
+            try {
+                const response = await fetch(`http://localhost:8280/api/categories/parent/${category.categoryId}`);
+                const data = await response.json();
+                setSubCategories(data);
+            } catch (error) {
+                console.error('获取子类数据时出错:', error);
+            }
+        };
+
+        fetchSubCategories().then();
+    }, [category.categoryId]);
+
+    return (
+        <>
+            <option value={category.categoryId}>
+
+
+                {'- '.repeat(level) + category.name}
+
+
+            </option>
+            {subCategories.map((subCategory) => (
+                <CategoryOption key={subCategory.categoryId} category={subCategory} level={level+1} />
+            ))}
+        </>
+    );
+};
+
+
+const StoragePop: React.FC<ProductModalProps> = ({
+                                                     popTitle,
+                                                     isOpen,
+                                                     onClose,
+                                                     listChange,
+                                                     proId,
+                                                     imageUrl = '',
+                                                     setImageUrl = () => {
+                                                         console.log('StoragePop参数set方法传输失败')
+                                                     },
+                                                     title = '',
+                                                     setTitle = () => {
+                                                         console.log('StoragePop参数set方法传输失败')
+                                                     },
+                                                     description = '',
+                                                     setDescription = () => {
+                                                         console.log('StoragePop参数set方法传输失败')
+                                                     },
+                                                     price = 0,
+                                                     setPrice = () => {
+                                                         console.log('StoragePop参数set方法传输失败')
+                                                     },
+                                                     type = 0,
+                                                     setType = () => {
+                                                         console.log('StoragePop参数set方法传输失败')
+                                                     }
+                                                 }) => {
+    const {showError} = useError();
+    const [typeList, setTypeList] = useState<TypeInter[]>([]);
     const [userId] = useState<string | undefined>(Cookies.get("token"));
 
     useEffect(() => {
         // 获取类型列表
         const getProductsTypes = async () => {
             try {
-                const response = await fetch(apiUrl+'/api/categories', {
+                const response = await fetch(apiUrl + '/api/categories/parent/-1', {
                     method: 'GET',
                     headers: {'Content-Type': 'application/json'}
                 });
 
                 if (!response.ok) {
-                    showError("后端/api/categories GET访问出错，请联系管理员");
+                    showError("后端/api/categories/parent/-1 GET访问出错，请联系管理员");
                     return;
                 }
                 const types = await response.json();
@@ -64,32 +127,32 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
 
     const handleSubmit = async () => {
         // Handle form submission logic
-        if (!userId){
+        if (!userId) {
             showError("登录用户id获取失败");
             return;
         }
         // 构建请求体
         const requestBody = {
             productId: proId,
-            seller: { userId:userId },
-            title:title,
-            description:description,
-            price:price,
+            seller: {userId: userId},
+            title: title,
+            description: description,
+            price: price,
             category: {categoryId: type},
             status: '在售',
         };
 
         //构建请求  添加商品/更新商品
-        const response = await fetch(apiUrl+'/api/products', {
+        const response = await fetch(apiUrl + '/api/products', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(requestBody)
         });
 
-        if (response.ok){
+        if (response.ok) {
             const {title, price} = await response.json();
-            console.log(title +" ￥"+ price + "操作成功");
-        }else {
+            console.log(title + " ￥" + price + "操作成功");
+        } else {
             console.log("商品变动失败");
         }
 
@@ -109,38 +172,45 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
 
     return (
         // 黑色半透明幕布弹窗，仅自身触发onClick
-        <div className="pop-win" onClick={(event) => event.currentTarget === event.target? onClose() : undefined}>
+        <div className="pop-win" onClick={(event) => event.currentTarget === event.target ? onClose() : undefined}>
             <div className="pop-content">
                 {/*关闭按钮 (废弃)*/}
                 {/*<span className="close" onClick={onClose}>&times;</span>*/}
                 <h4>{popTitle}</h4>
-                <form onSubmit={(e) => { e.preventDefault(); handleSubmit().then(); }}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit().then();
+                }}>
                     <table className="testTable">
                         <tbody>
                         <tr>
                             <td rowSpan={4}>
                                 <label>Image:</label>
-                                <input type="file" className={'form-control'} accept="image/*" />
-                                {imageUrl && <img src={imageUrl} alt="Preview" width="100" />}
+                                <input type="file" className={'form-control'} accept="image/*"/>
+                                {imageUrl && <img src={imageUrl} alt="Preview" width="100"/>}
                             </td>
                             <td>标题：</td>
-                            <td><input type="text" className={'form-control'} value={title} onChange={(e) => setTitle(e.target.value)}/></td>
+                            <td><input type="text" className={'form-control'} value={title}
+                                       onChange={(e) => setTitle(e.target.value)}/></td>
                         </tr>
                         <tr>
                             <td>介绍</td>
-                            <td><textarea value={description} className={'form-control'} onChange={(e) => setDescription(e.target.value)}></textarea></td>
+                            <td><textarea value={description} className={'form-control'}
+                                          onChange={(e) => setDescription(e.target.value)}></textarea></td>
                         </tr>
                         <tr>
                             <td>价格</td>
-                            <td><input type="number" className={'form-control'} value={price} onChange={(e) => setPrice(Number(e.target.value))}/></td>
+                            <td><input type="number" className={'form-control'} value={price}
+                                       onChange={(e) => setPrice(Number(e.target.value))}/></td>
                         </tr>
                         <tr>
                             <td>类型</td>
                             <td>
-                                <select value={type} className={'form-control'} onChange={(e) => setType(Number(e.target.value))}>
+                                <select value={type} className={'form-control'}
+                                        onChange={(e) => setType(Number(e.target.value))}>
                                     <option value={0} disabled>请选择</option>
-                                    {typeList.map((item, index) => (
-                                        <option key={index} value={item.categoryId}>{item.name}</option>
+                                    {typeList.map((item) => (
+                                        <CategoryOption key={item.categoryId} category={item} level={0}/>
                                     ))}
                                 </select>
                             </td>
@@ -155,7 +225,7 @@ const StoragePop: React.FC<ProductModalProps> = ({popTitle, isOpen, onClose , li
                 </form>
             </div>
         </div>
-    );
+    )
 };
 
 export default StoragePop;

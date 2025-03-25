@@ -161,6 +161,9 @@ const ProductItem: React.FC<IProductItem> = ({data,liked}) => {
     console.log(data.productId,isLiked);
 
 
+    function toDetail() {
+        navigate('/products/'+ data.productId);
+    }
 
     return (
         <div className={'productItem'}>
@@ -178,7 +181,7 @@ const ProductItem: React.FC<IProductItem> = ({data,liked}) => {
                         <path d="M14 12.3v8.7l7 -3v-8z"/>
                     </svg>
                 }
-                <div className={'d-block'} style={{textAlign: 'left', marginLeft: '1rem'}}>
+                <div className={'d-block'} style={{textAlign: 'left', marginLeft: '1rem', cursor: "pointer"}} onClick={toDetail}>
                     <h3>{data.title}</h3>
                     <p>{data.description}</p>
                 </div>

@@ -118,7 +118,7 @@ const Storage = () =>{
 
     return (
         <>
-            <TopBar />
+            <TopBar text={"我的货架"}/>
             <StoragePop popTitle={pTitle} isOpen={isPopOpen} onClose={closePop} listChange={fetchProducts} proId={productId} imageUrl={imageUrl} setImageUrl={setImageUrl}
             title={title} setTitle={setTitle} description={description} setDescription={setDescription} price={price} setPrice={setPrice} type={type} setType={setType} />
 
